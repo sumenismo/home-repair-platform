@@ -1,0 +1,34 @@
+{
+  "name": "@home-repair/api",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "dotenv -e ../../.env -- tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "dotenv -e ../../.env -- node dist/src/index.js",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "dotenv -e ../../.env.test -- vitest run",
+    "test:watch": "dotenv -e ../../.env.test -- vitest"
+  },
+  "dependencies": {
+    "@home-repair/db": "workspace:*",
+    "jose": "^5.9.6",
+    "@home-repair/gql": "workspace:*",
+    "@supabase/supabase-js": "^2.45.0",
+    "fastify": "^4.28.0",
+    "graphql": "^16.9.0",
+    "graphql-yoga": "^5.7.0"
+  },
+  "devDependencies": {
+    "@home-repair/eslint-config": "workspace:*",
+    "@home-repair/tsconfig": "workspace:*",
+    "eslint": "^9.0.0",
+    "@types/node": "^22.0.0",
+    "dotenv-cli": "^7.4.2",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.0"
+  }
+}

@@ -1,0 +1,59 @@
+type User {
+  id: ID!
+  email: String!
+  role: Role!
+  fullName: String
+  phone: String
+  createdAt: String!
+  homeownerProfile: HomeownerProfile
+  serviceProviderProfile: ServiceProviderProfile
+}
+
+type HomeownerProfile {
+  userId: ID!
+  address: String
+  barangay: String
+  region: String
+}
+
+type ServiceProviderProfile {
+  userId: ID!
+  businessName: String
+  tin: String
+  isCompany: Boolean!
+  tradeCategories: [String!]!
+  bio: String
+  verified: Boolean!
+}
+
+enum Role {
+  HOMEOWNER
+  SERVICE_PROVIDER
+}
+
+input RegisterUserInput {
+  role: Role!
+  fullName: String
+}
+
+input UpdateProfileInput {
+  fullName: String
+  phone: String
+  address: String
+  barangay: String
+  region: String
+  businessName: String
+  tin: String
+  isCompany: Boolean
+  tradeCategories: [String!]
+  bio: String
+}
+
+extend type Query {
+  me: User
+}
+
+extend type Mutation {
+  registerUser(input: RegisterUserInput!): User!
+  updateProfile(input: UpdateProfileInput!): User!
+}

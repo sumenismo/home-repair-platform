@@ -1,0 +1,33 @@
+{
+  "name": "@home-repair/gql",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/typedefs.js",
+      "types": "./dist/typedefs.d.ts"
+    }
+  },
+  "scripts": {
+    "codegen": "graphql-codegen --config codegen.ts",
+    "lint": "eslint .",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "graphql": "^16.9.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/typescript": "^4.0.9",
+    "@graphql-codegen/typescript-operations": "^4.3.3",
+    "@graphql-codegen/typescript-urql": "^4.0.0",
+    "@graphql-codegen/typescript-resolvers": "^4.3.1",
+    "@home-repair/eslint-config": "workspace:*",
+    "@home-repair/tsconfig": "workspace:*",
+    "@types/node": "^22.0.0",
+    "eslint": "^9.0.0",
+    "typescript": "^5.5.4"
+  }
+}

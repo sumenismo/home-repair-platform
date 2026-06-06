@@ -1,0 +1,41 @@
+query Bids($jobPostId: ID!) {
+  bids(jobPostId: $jobPostId) {
+    id
+    status
+    message
+    createdAt
+    serviceProvider {
+      id
+      fullName
+      phone
+      email
+      serviceProviderProfile {
+        businessName
+        tradeCategories
+        verified
+      }
+    }
+  }
+}
+
+mutation PlaceBid($jobPostId: ID!, $message: String) {
+  placeBid(jobPostId: $jobPostId, message: $message) {
+    id
+    status
+    createdAt
+  }
+}
+
+mutation AcceptBid($bidId: ID!) {
+  acceptBid(bidId: $bidId) {
+    id
+    status
+  }
+}
+
+mutation RejectBid($bidId: ID!) {
+  rejectBid(bidId: $bidId) {
+    id
+    status
+  }
+}

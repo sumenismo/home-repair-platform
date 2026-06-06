@@ -1,0 +1,54 @@
+type JobPost {
+  id: ID!
+  homeownerId: ID!
+  homeowner: User!
+  title: String!
+  description: String!
+  category: String!
+  street: String
+  barangay: String
+  cityMunicipality: String
+  province: String
+  region: String
+  status: JobPostStatus!
+  bidCount: Int!
+  createdAt: String!
+  updatedAt: String!
+}
+
+enum JobPostStatus {
+  OPEN
+  IN_REVIEW
+  ACCEPTED
+  CLOSED
+}
+
+input CreateJobPostInput {
+  title: String!
+  description: String!
+  category: String!
+  street: String
+  barangay: String
+  cityMunicipality: String
+  province: String
+  region: String
+}
+
+input JobPostFilter {
+  category: String
+  region: String
+  province: String
+  cityMunicipality: String
+  status: JobPostStatus
+}
+
+extend type Query {
+  jobPost(id: ID!): JobPost
+  jobPosts(filter: JobPostFilter): [JobPost!]!
+  myJobPosts: [JobPost!]!
+}
+
+extend type Mutation {
+  createJobPost(input: CreateJobPostInput!): JobPost!
+  closeJobPost(id: ID!): JobPost!
+}

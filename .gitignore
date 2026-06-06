@@ -1,0 +1,39 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build outputs
+dist
+build
+.turbo
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Codegen outputs — run `pnpm codegen` to regenerate
+apps/api/src/generated/
+apps/web/src/generated/
+packages/gql/src/types.ts
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Editor
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+.dockerignore
+
+# Docs
+docs/

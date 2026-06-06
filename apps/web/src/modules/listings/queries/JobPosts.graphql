@@ -1,0 +1,74 @@
+query MyJobPosts {
+  myJobPosts {
+    id
+    title
+    description
+    category
+    street
+    barangay
+    cityMunicipality
+    province
+    region
+    status
+    bidCount
+    createdAt
+  }
+}
+
+query JobPosts($filter: JobPostFilter) {
+  jobPosts(filter: $filter) {
+    id
+    title
+    description
+    category
+    street
+    barangay
+    cityMunicipality
+    province
+    region
+    status
+    bidCount
+    createdAt
+    homeowner {
+      id
+      fullName
+    }
+  }
+}
+
+query JobPost($id: ID!) {
+  jobPost(id: $id) {
+    id
+    title
+    description
+    category
+    street
+    barangay
+    cityMunicipality
+    province
+    region
+    status
+    bidCount
+    createdAt
+    homeowner {
+      id
+      fullName
+    }
+  }
+}
+
+mutation CreateJobPost($input: CreateJobPostInput!) {
+  createJobPost(input: $input) {
+    id
+    title
+    status
+    createdAt
+  }
+}
+
+mutation CloseJobPost($id: ID!) {
+  closeJobPost(id: $id) {
+    id
+    status
+  }
+}

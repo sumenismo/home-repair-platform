@@ -1,0 +1,26 @@
+type Bid {
+  id: ID!
+  jobPostId: ID!
+  jobPost: JobPost!
+  serviceProviderId: ID!
+  serviceProvider: User!
+  status: BidStatus!
+  message: String
+  createdAt: String!
+}
+
+enum BidStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+extend type Query {
+  bids(jobPostId: ID!): [Bid!]!
+}
+
+extend type Mutation {
+  placeBid(jobPostId: ID!, message: String): Bid!
+  acceptBid(bidId: ID!): Bid!
+  rejectBid(bidId: ID!): Bid!
+}

@@ -1,0 +1,17 @@
+type Message {
+  id: ID!
+  jobPostId: ID!
+  senderId: ID!
+  sender: User!
+  recipientId: ID!
+  body: String!
+  createdAt: String!
+}
+
+extend type Query {
+  messages(jobPostId: ID!, serviceProviderId: ID!): [Message!]!
+}
+
+extend type Mutation {
+  sendMessage(jobPostId: ID!, recipientId: ID!, body: String!): Message!
+}

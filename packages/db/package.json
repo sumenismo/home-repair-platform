@@ -1,0 +1,31 @@
+{
+  "name": "@home-repair/db",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/client.js",
+      "types": "./dist/client.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "db:migrate": "dotenv -e ../../.env -- node-pg-migrate up",
+    "db:migrate:test": "dotenv -e ../../.env.test -- node-pg-migrate up"
+  },
+  "dependencies": {
+    "postgres": "^3.4.4"
+  },
+  "devDependencies": {
+    "@home-repair/eslint-config": "workspace:*",
+    "@home-repair/tsconfig": "workspace:*",
+    "@types/node": "^22.0.0",
+    "eslint": "^9.0.0",
+    "dotenv-cli": "^7.4.2",
+    "node-pg-migrate": "^7.7.0",
+    "typescript": "^5.5.4"
+  }
+}

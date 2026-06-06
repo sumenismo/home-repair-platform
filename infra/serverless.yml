@@ -1,0 +1,26 @@
+# Satellite functions — async concerns extracted from the main API
+# The main API is deployed as a container via apps/api/Dockerfile
+#
+# Add functions here as needed, e.g.:
+#   - Email notifications triggered by a queue
+#   - Push notifications
+#   - Heavy report generation
+#
+# Run: serverless deploy --stage prod
+
+service: home-repair-functions
+
+provider:
+  name: aws          # Change to: digitalocean | google
+  runtime: nodejs22.x
+  region: ap-southeast-2
+  environment:
+    DATABASE_URL: ${env:DATABASE_URL}
+    SUPABASE_URL: ${env:SUPABASE_URL}
+
+# functions:
+#   sendEmail:
+#     handler: functions/send-email/handler.handler
+#     events:
+#       - sqs:
+#           arn: !GetAtt EmailQueue.Arn
