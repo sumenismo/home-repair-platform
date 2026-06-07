@@ -108,6 +108,42 @@ describe('BiddingService', () => {
     })
   })
 
+  describe('getBidsForServiceProvider', () => {
+    it('returns an empty array when the service provider has placed no bids', async () => {
+      const serviceProvider = await createUser({ role: 'SERVICE_PROVIDER' })
+
+      const bids = await BiddingService.getBidsForServiceProvider(sql, serviceProvider.id)
+      expect(bids).toEqual([])
+    })
+
+    it('only returns bids belonging to the requesting service provider', async () => {
+      const homeowner = await createUser({ role: 'HOMEOWNER' })
+      const sp1 = await createUser({ role: 'SERVICE_PROVIDER' })
+      const sp2 = await createUser({ role: 'SERVICE_PROVIDER' })
+      const post = await createJobPost(homeowner.id)
+
+      const bid1 = await createBid(post.id, sp1.id)
+      await createBid(post.id, sp2.id)
+
+      const bids = await BiddingService.getBidsForServiceProvider(sql, sp1.id)
+      expect(bids).toHaveLength(1)
+      expect(bids[0].id).toBe(bid1.id)
+    })
+
+    it('returns bids newest-first', async () => {
+      const homeowner = await createUser({ role: 'HOMEOWNER' })
+      const sp = await createUser({ role: 'SERVICE_PROVIDER' })
+      const post1 = await createJobPost(homeowner.id)
+      const post2 = await createJobPost(homeowner.id)
+
+      const bid1 = await createBid(post1.id, sp.id)
+      const bid2 = await createBid(post2.id, sp.id)
+
+      const bids = await BiddingService.getBidsForServiceProvider(sql, sp.id)
+      expect(bids.map((b) => b.id)).toEqual([bid2.id, bid1.id])
+    })
+  })
+
   describe('acceptBid', () => {
     it('marks the bid as accepted and the job post as ACCEPTED', async () => {
       const homeowner = await createUser({ role: 'HOMEOWNER' })

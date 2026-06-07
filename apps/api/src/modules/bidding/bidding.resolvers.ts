@@ -15,6 +15,12 @@ export const biddingResolvers: Resolvers = {
       if (post.homeownerId !== user.id) throw Errors.forbidden()
       return BiddingService.getBidsForPost(ctx.sql, jobPostId)
     },
+    myBids: async (_, __, ctx) => {
+      const user = await ctx.getUser()
+      if (!user) throw Errors.unauthenticated()
+      if (user.role !== 'SERVICE_PROVIDER') throw Errors.forbidden()
+      return BiddingService.getBidsForServiceProvider(ctx.sql, user.id)
+    },
   },
 
   Mutation: {
@@ -42,6 +48,7 @@ export const biddingResolvers: Resolvers = {
   },
 
   Bid: {
+    createdAt: (bid) => bid.createdAt.toISOString(),
     jobPost: async (bid, _, ctx) => {
       const post = await ListingsService.getJobPost(ctx.sql, bid.jobPostId)
       if (!post) throw Errors.notFound('JobPost')

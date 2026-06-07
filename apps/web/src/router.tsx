@@ -8,6 +8,7 @@ import HomeownerDashboard from '@/pages/homeowner/DashboardPage'
 import PostJobPage from '@/pages/homeowner/PostJobPage'
 import JobDetailPage from '@/pages/homeowner/JobDetailPage'
 import ServiceProviderDashboard from '@/pages/service-provider/DashboardPage'
+import ServiceProviderJobDetailPage from '@/pages/service-provider/JobDetailPage'
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
           { path: '/homeowner/jobs/new', element: <PostJobPage /> },
           { path: '/homeowner/jobs/:id', element: <JobDetailPage /> },
           { path: '/service-provider', element: <ServiceProviderDashboard /> },
+          { path: '/service-provider/jobs/:id', element: <ServiceProviderJobDetailPage /> },
         ],
       },
       { path: '/', element: <RootRedirect /> },

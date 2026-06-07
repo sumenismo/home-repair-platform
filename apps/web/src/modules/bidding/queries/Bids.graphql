@@ -39,3 +39,21 @@ mutation RejectBid($bidId: ID!) {
     status
   }
 }
+
+query MyBids {
+  myBids {
+    id
+    status
+    message
+    createdAt
+    jobPostId
+    jobPost {
+      id
+      title
+      category
+      status
+      cityMunicipality
+      province
+    }
+  }
+}

@@ -17,6 +17,7 @@ enum BidStatus {
 
 extend type Query {
   bids(jobPostId: ID!): [Bid!]!
+  myBids: [Bid!]!
 }
 
 extend type Mutation {

@@ -20,6 +20,14 @@ export const BiddingService = {
     `
   },
 
+  async getBidsForServiceProvider(sql: Sql, serviceProviderId: string): Promise<BidRow[]> {
+    return sql<BidRow[]>`
+      SELECT id, job_post_id, service_provider_id, status, message, created_at
+      FROM bids WHERE service_provider_id = ${serviceProviderId}
+      ORDER BY created_at DESC
+    `
+  },
+
   async placeBid(
     sql: Sql,
     jobPostId: string,
