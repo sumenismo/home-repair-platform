@@ -10,8 +10,14 @@ export default function AppLayout() {
 
   const navLinks =
     appUser.role === 'HOMEOWNER'
-      ? [{ to: '/homeowner', label: 'Dashboard' }]
-      : [{ to: '/service-provider', label: 'Browse Jobs' }]
+      ? [
+          { to: '/homeowner', label: 'Dashboard' },
+          { to: '/homeowner/profile', label: 'Profile' },
+        ]
+      : [
+          { to: '/service-provider', label: 'Browse Jobs' },
+          { to: '/service-provider/profile', label: 'Profile' },
+        ]
 
   return (
     <div className="min-h-screen flex flex-col">

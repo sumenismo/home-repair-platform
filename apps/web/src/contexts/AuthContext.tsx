@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import type { Session } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase'
+import { gqlClient } from '@/lib/gql-client'
+import { MeDocument, type MeQuery, type MeQueryVariables } from '@/generated/graphql'
 
 type AppUser = {
   id: string
@@ -25,8 +27,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    void supabase.auth.getSession().then(({ data }) => {
+    void supabase.auth.getSession().then(async ({ data }) => {
       setSession(data.session)
+      if (data.session) {
+        const result = await gqlClient
+          .query<MeQuery, MeQueryVariables>(MeDocument, {})
+          .toPromise()
+        const user = result.data?.me
+        if (user) {
+          setAppUser({ id: user.id, email: user.email, role: user.role, fullName: user.fullName ?? null })
+        }
+      }
       setLoading(false)
     })
 

@@ -1,8 +1,6 @@
-query Me {
-  me {
+mutation UpdateProfile($input: UpdateProfileInput!) {
+  updateProfile(input: $input) {
     id
-    email
-    role
     fullName
     phone
     homeownerProfile {
@@ -14,11 +12,9 @@ query Me {
     }
     serviceProviderProfile {
       businessName
-      tin
       isCompany
       tradeCategories
       bio
-      verified
     }
   }
 }

@@ -13,6 +13,8 @@ type HomeownerProfile {
   userId: ID!
   address: String
   barangay: String
+  cityMunicipality: String
+  province: String
   region: String
 }
 
@@ -41,6 +43,8 @@ input UpdateProfileInput {
   phone: String
   address: String
   barangay: String
+  cityMunicipality: String
+  province: String
   region: String
   businessName: String
   tin: String
