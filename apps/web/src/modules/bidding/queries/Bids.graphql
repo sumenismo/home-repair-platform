@@ -11,7 +11,9 @@ query Bids($jobPostId: ID!) {
       email
       serviceProviderProfile {
         businessName
+        isCompany
         tradeCategories
+        bio
         verified
       }
     }

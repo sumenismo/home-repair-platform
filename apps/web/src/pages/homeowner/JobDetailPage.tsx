@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router'
 import {
   useJobPostQuery,
@@ -7,10 +8,14 @@ import {
   useCloseJobPostMutation,
   type JobPostStatus,
   type BidStatus,
+  type BidsQuery,
 } from '@/generated/graphql'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
+import ServiceProviderProfileModal from './ServiceProviderProfileModal'
+
+type Bid = BidsQuery['bids'][number]
 
 const STATUS_LABEL: Record<JobPostStatus, string> = {
   OPEN: 'Open',
@@ -55,6 +60,7 @@ function formatAddress(post: {
 export default function JobDetailPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const [selectedBid, setSelectedBid] = useState<Bid | null>(null)
 
   const [{ data: postData, fetching: postFetching }] = useJobPostQuery({
     variables: { id: id! },
@@ -186,7 +192,13 @@ export default function JobDetailPage() {
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="space-y-0.5">
-                      <p className="font-medium">{sp.fullName ?? sp.email}</p>
+                      <button
+                        type="button"
+                        className="font-medium text-left hover:underline cursor-pointer"
+                        onClick={() => setSelectedBid(bid)}
+                      >
+                        {sp.fullName ?? sp.email}
+                      </button>
                       {profile?.businessName && (
                         <p className="text-muted-foreground text-sm">{profile.businessName}</p>
                       )}
@@ -247,6 +259,12 @@ export default function JobDetailPage() {
           </ul>
         )}
       </div>
+
+      <ServiceProviderProfileModal
+        bid={selectedBid}
+        open={selectedBid !== null}
+        onClose={() => setSelectedBid(null)}
+      />
     </div>
   )
 }

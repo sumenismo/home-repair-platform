@@ -31,7 +31,7 @@ export const identityResolvers: Resolvers = {
     },
     serviceProviderProfile: async (user, _, ctx) => {
       const caller = await ctx.getUser()
-      if (caller?.id !== user.id) return null
+      if (!caller) return null
       return IdentityService.getServiceProviderProfile(ctx.sql, user.id)
     },
   },
