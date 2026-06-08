@@ -1,0 +1,13 @@
+services:
+  api:
+    image: registry.digitalocean.com/${DO_REGISTRY_NAME}/home-repair:api-latest
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:4000:4000"
+
+  web:
+    image: registry.digitalocean.com/${DO_REGISTRY_NAME}/home-repair:web-latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:80"
