@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router'
 import RootLayout from '@/layouts/RootLayout'
 import AuthLayout from '@/layouts/AuthLayout'
 import AppLayout from '@/layouts/AppLayout'
+import LandingPage from '@/pages/LandingPage'
 import LoginPage from '@/pages/auth/LoginPage'
 import SignupPage from '@/pages/auth/SignupPage'
 import HomeownerDashboard from '@/pages/homeowner/DashboardPage'
@@ -16,6 +17,7 @@ export const router = createBrowserRouter([
   {
     element: <RootLayout />,
     children: [
+      { path: '/', element: <LandingPage /> },
       {
         element: <AuthLayout />,
         children: [
@@ -35,11 +37,6 @@ export const router = createBrowserRouter([
           { path: '/service-provider/profile', element: <ServiceProviderProfilePage /> },
         ],
       },
-      { path: '/', element: <RootRedirect /> },
     ],
   },
 ])
-
-function RootRedirect() {
-  return null
-}
