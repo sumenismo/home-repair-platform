@@ -4,7 +4,6 @@ import { useAuth } from '@/contexts/AuthContext'
 import {
   useJobPostsQuery,
   useMyBidsQuery,
-  type JobPostStatus,
   type BidStatus,
 } from '@/generated/graphql'
 import { Select } from '@/components/ui/select'
@@ -20,13 +19,6 @@ const CATEGORIES = [
   'Landscaping',
   'General',
 ] as const
-
-const STATUS_CLASS: Record<JobPostStatus, string> = {
-  OPEN: 'bg-green-100 text-green-800',
-  IN_REVIEW: 'bg-yellow-100 text-yellow-800',
-  ACCEPTED: 'bg-blue-100 text-blue-800',
-  CLOSED: 'bg-gray-100 text-gray-600',
-}
 
 const BID_STATUS_LABEL: Record<BidStatus, string> = {
   PENDING: 'Bid pending',

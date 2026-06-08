@@ -3,10 +3,10 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router'
 import AppLayout from './AppLayout'
 
-const mockUseAuth = vi.fn()
+const mockUseAuth = vi.hoisted(() => vi.fn())
 
 vi.mock('@/contexts/AuthContext', () => ({
-  useAuth: () => mockUseAuth(),
+  useAuth: mockUseAuth,
 }))
 
 function renderAppLayout(initialPath = '/homeowner') {
