@@ -77,7 +77,7 @@ export default function HomeownerProfilePage() {
 
     const provincesInRegion = regionCode ? getProvincesByRegion(regionCode) : []
     const provinceObj = provincesInRegion.find((p) => p.name === hp.province)
-    const provinceCode = provinceObj?.psgcCode ?? ''
+    const provinceCode = provincesInRegion.length === 0 ? regionCode : (provinceObj?.psgcCode ?? '')
     setSelectedProvinceCode(provinceCode)
     if (hp.province) setValue('province', hp.province)
 
@@ -157,8 +157,10 @@ export default function HomeownerProfilePage() {
                   {...register('region')}
                   onChange={(e) => {
                     const selected = ALL_REGIONS.find((r) => r.name === e.target.value)
-                    setSelectedRegionCode(selected?.psgcCode ?? '')
-                    setSelectedProvinceCode('')
+                    const regionCode = selected?.psgcCode ?? ''
+                    const regionProvinces = regionCode ? getProvincesByRegion(regionCode) : []
+                    setSelectedRegionCode(regionCode)
+                    setSelectedProvinceCode(regionProvinces.length === 0 ? regionCode : '')
                     setSelectedCityCode('')
                     setValue('region', e.target.value)
                     setValue('province', '')
