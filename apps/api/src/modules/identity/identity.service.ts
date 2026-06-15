@@ -25,6 +25,7 @@ export type ServiceProviderProfileRow = {
   tin: string | null
   isCompany: boolean
   tradeCategories: string[]
+  serviceCities: string[]
   bio: string | null
   verified: boolean
 }
@@ -63,7 +64,7 @@ export const IdentityService = {
 
   async getServiceProviderProfile(sql: Sql, userId: string): Promise<ServiceProviderProfileRow | null> {
     const [profile] = await sql<ServiceProviderProfileRow[]>`
-      SELECT user_id, business_name, tin, is_company, trade_categories, bio, verified
+      SELECT user_id, business_name, tin, is_company, trade_categories, service_cities, bio, verified
       FROM service_provider_profiles WHERE user_id = ${userId}
     `
     return profile ?? null
@@ -82,6 +83,7 @@ export const IdentityService = {
       tin,
       isCompany,
       tradeCategories,
+      serviceCities,
       bio,
     } = input
 
@@ -118,15 +120,18 @@ export const IdentityService = {
     const isCompanyUpdate = isCompany !== undefined ? isCompany : null
     const tradeCategoriesInsert = sql.array(tradeCategories ?? [])
     const tradeCategoriesUpdate = tradeCategories != null ? sql.array(tradeCategories) : null
+    const serviceCitiesInsert = sql.array(serviceCities ?? [])
+    const serviceCitiesUpdate = serviceCities != null ? sql.array(serviceCities) : null
 
     await sql`
-      INSERT INTO service_provider_profiles (user_id, business_name, tin, is_company, trade_categories, bio)
+      INSERT INTO service_provider_profiles (user_id, business_name, tin, is_company, trade_categories, service_cities, bio)
       VALUES (
         ${userId},
         ${businessName ?? null},
         ${tin ?? null},
         ${isCompanyInsert},
         ${tradeCategoriesInsert},
+        ${serviceCitiesInsert},
         ${bio ?? null}
       )
       ON CONFLICT (user_id) DO UPDATE SET
@@ -134,6 +139,7 @@ export const IdentityService = {
         tin              = COALESCE(EXCLUDED.tin,              service_provider_profiles.tin),
         is_company       = COALESCE(${isCompanyUpdate}::boolean, service_provider_profiles.is_company),
         trade_categories = COALESCE(${tradeCategoriesUpdate},  service_provider_profiles.trade_categories),
+        service_cities   = COALESCE(${serviceCitiesUpdate},   service_provider_profiles.service_cities),
         bio              = COALESCE(EXCLUDED.bio,              service_provider_profiles.bio)
     `
 

@@ -41,7 +41,7 @@ export const ListingsService = {
     `
   },
 
-  async getJobPosts(sql: Sql, filter?: JobPostFilter | null): Promise<JobPostRow[]> {
+  async getJobPosts(sql: Sql, filter?: JobPostFilter | null, serviceCities?: string[]): Promise<JobPostRow[]> {
     return sql<JobPostRow[]>`
       SELECT jp.*, COUNT(b.id)::int AS bid_count
       FROM job_posts jp
@@ -52,6 +52,7 @@ export const ListingsService = {
         ${filter?.province        ? sql`AND jp.province         = ${filter.province}`        : sql``}
         ${filter?.cityMunicipality ? sql`AND jp.city_municipality = ${filter.cityMunicipality}` : sql``}
         ${filter?.status          ? sql`AND jp.status           = ${filter.status}`          : sql``}
+        ${serviceCities?.length   ? sql`AND jp.city_municipality = ANY(${sql.array(serviceCities)})` : sql``}
       GROUP BY jp.id
       ORDER BY jp.created_at DESC
     `

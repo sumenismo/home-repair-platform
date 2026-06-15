@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { sql } from '@home-repair/db'
 import { ListingsService } from './listings.service.js'
-import { createUser, createJobPost, createBid } from '../../test/factories.js'
+import { createUser, createJobPost, createBid, createSPProfile } from '../../test/factories.js'
 
 describe('ListingsService', () => {
   describe('createJobPost', () => {
@@ -83,6 +83,34 @@ describe('ListingsService', () => {
       const posts = await ListingsService.getJobPosts(sql, { category: 'plumbing' })
       expect(posts.length).toBe(1)
       expect(posts[0].category).toBe('plumbing')
+    })
+
+    it('filters by city when serviceCities is provided', async () => {
+      const homeowner = await createUser({ role: 'HOMEOWNER' })
+      await createJobPost(homeowner.id, { cityMunicipality: 'Taguig' })
+      await createJobPost(homeowner.id, { cityMunicipality: 'Makati' })
+
+      const posts = await ListingsService.getJobPosts(sql, null, ['Taguig'])
+      expect(posts.length).toBe(1)
+      expect(posts[0].cityMunicipality).toBe('Taguig')
+    })
+
+    it('returns all jobs when serviceCities is empty', async () => {
+      const homeowner = await createUser({ role: 'HOMEOWNER' })
+      await createJobPost(homeowner.id, { cityMunicipality: 'Taguig' })
+      await createJobPost(homeowner.id, { cityMunicipality: 'Makati' })
+
+      const posts = await ListingsService.getJobPosts(sql, null, [])
+      expect(posts.length).toBe(2)
+    })
+
+    it('returns all jobs when serviceCities arg is omitted', async () => {
+      const homeowner = await createUser({ role: 'HOMEOWNER' })
+      await createJobPost(homeowner.id, { cityMunicipality: 'Taguig' })
+      await createJobPost(homeowner.id, { cityMunicipality: 'Makati' })
+
+      const posts = await ListingsService.getJobPosts(sql)
+      expect(posts.length).toBe(2)
     })
 
     it('filters by status', async () => {

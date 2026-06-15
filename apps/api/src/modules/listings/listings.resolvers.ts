@@ -9,6 +9,11 @@ export const listingsResolvers: Resolvers = {
       return ListingsService.getJobPost(ctx.sql, id)
     },
     jobPosts: async (_, { filter }, ctx) => {
+      const user = await ctx.getUser()
+      if (user?.role === 'SERVICE_PROVIDER') {
+        const spProfile = await IdentityService.getServiceProviderProfile(ctx.sql, user.id)
+        return ListingsService.getJobPosts(ctx.sql, filter, spProfile?.serviceCities ?? [])
+      }
       return ListingsService.getJobPosts(ctx.sql, filter)
     },
     myJobPosts: async (_, __, ctx) => {

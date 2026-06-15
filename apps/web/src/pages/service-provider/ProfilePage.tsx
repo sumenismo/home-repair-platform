@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { CityMultiSelect } from '@/components/ui/city-multi-select'
 import { cn } from '@/lib/utils'
 
 const CATEGORIES = [
@@ -28,6 +29,7 @@ const schema = z.object({
   businessName: z.string().optional(),
   isCompany: z.boolean(),
   tradeCategories: z.array(z.string()),
+  serviceCities: z.array(z.string()),
   bio: z.string().optional(),
 })
 
@@ -48,7 +50,7 @@ export default function ServiceProviderProfilePage() {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { isCompany: false, tradeCategories: [] },
+    defaultValues: { isCompany: false, tradeCategories: [], serviceCities: [] },
   })
 
   const isCompany = watch('isCompany')
@@ -68,6 +70,7 @@ export default function ServiceProviderProfilePage() {
     if (sp.businessName) setValue('businessName', sp.businessName)
     setValue('isCompany', sp.isCompany)
     setValue('tradeCategories', sp.tradeCategories ?? [])
+    setValue('serviceCities', sp.serviceCities ?? [])
     if (sp.bio) setValue('bio', sp.bio)
   }, [data, setValue])
 
@@ -89,6 +92,7 @@ export default function ServiceProviderProfilePage() {
         businessName: values.businessName || undefined,
         isCompany: values.isCompany,
         tradeCategories: values.tradeCategories,
+        serviceCities: values.serviceCities,
         bio: values.bio || undefined,
       },
     })
@@ -163,6 +167,20 @@ export default function ServiceProviderProfilePage() {
                   </button>
                 ))}
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Service areas</Label>
+              <p className="text-muted-foreground text-xs">
+                Jobs outside these cities won't appear in your feed. Leave empty to see all.
+              </p>
+              <Controller
+                control={control}
+                name="serviceCities"
+                render={({ field }) => (
+                  <CityMultiSelect value={field.value} onChange={field.onChange} />
+                )}
+              />
             </div>
 
             <div className="space-y-2">

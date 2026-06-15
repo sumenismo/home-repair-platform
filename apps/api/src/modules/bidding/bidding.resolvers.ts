@@ -31,6 +31,14 @@ export const biddingResolvers: Resolvers = {
       const post = await ListingsService.getJobPost(ctx.sql, jobPostId)
       if (!post) throw Errors.notFound('JobPost')
       if (post.status !== 'OPEN') throw Errors.badInput('This job post is no longer accepting bids')
+      const spProfile = await IdentityService.getServiceProviderProfile(ctx.sql, user.id)
+      if (
+        spProfile?.serviceCities.length &&
+        post.cityMunicipality &&
+        !spProfile.serviceCities.includes(post.cityMunicipality)
+      ) {
+        throw Errors.badInput('You are not available to work in this city')
+      }
       return BiddingService.placeBid(ctx.sql, jobPostId, user.id, message)
     },
     acceptBid: async (_, { bidId }, ctx) => {

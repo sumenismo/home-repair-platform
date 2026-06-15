@@ -28,19 +28,43 @@ export async function createJobPost(
     category?: string
     title?: string
     status?: string
+    cityMunicipality?: string
   } = {},
 ) {
-  const [post] = await sql<{ id: string; homeownerId: string; status: string }[]>`
-    INSERT INTO job_posts (homeowner_id, title, description, category)
+  const [post] = await sql<{ id: string; homeownerId: string; status: string; cityMunicipality: string | null }[]>`
+    INSERT INTO job_posts (homeowner_id, title, description, category, city_municipality)
     VALUES (
       ${homeownerId},
       ${overrides.title ?? 'Fix leaking tap'},
       'Needs urgent repair',
-      ${overrides.category ?? 'plumbing'}
+      ${overrides.category ?? 'plumbing'},
+      ${overrides.cityMunicipality ?? null}
     )
     RETURNING *
   `
   return post
+}
+
+export async function createSPProfile(
+  userId: string,
+  overrides: {
+    serviceCities?: string[]
+    tradeCategories?: string[]
+  } = {},
+) {
+  const [profile] = await sql<{ userId: string; serviceCities: string[] }[]>`
+    INSERT INTO service_provider_profiles (user_id, service_cities, trade_categories)
+    VALUES (
+      ${userId},
+      ${sql.array(overrides.serviceCities ?? [])},
+      ${sql.array(overrides.tradeCategories ?? [])}
+    )
+    ON CONFLICT (user_id) DO UPDATE SET
+      service_cities   = EXCLUDED.service_cities,
+      trade_categories = EXCLUDED.trade_categories
+    RETURNING *
+  `
+  return profile
 }
 
 export async function createBid(jobPostId: string, serviceProviderId: string, message?: string) {

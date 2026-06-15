@@ -17,6 +17,7 @@ query Me {
       tin
       isCompany
       tradeCategories
+      serviceCities
       bio
       verified
     }
