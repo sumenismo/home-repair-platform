@@ -1,30 +1,10 @@
 import { Link } from 'react-router'
 import { useAuth } from '@/contexts/AuthContext'
-import { useMyJobPostsQuery, type JobPostStatus } from '@/generated/graphql'
+import { useMyJobPostsQuery } from '@/generated/graphql'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-
-const STATUS_LABEL: Record<JobPostStatus, string> = {
-  OPEN: 'Open',
-  IN_REVIEW: 'In review',
-  ACCEPTED: 'Accepted',
-  CLOSED: 'Closed',
-}
-
-const STATUS_CLASS: Record<JobPostStatus, string> = {
-  OPEN: 'bg-green-100 text-green-800',
-  IN_REVIEW: 'bg-yellow-100 text-yellow-800',
-  ACCEPTED: 'bg-blue-100 text-blue-800',
-  CLOSED: 'bg-gray-100 text-gray-600',
-}
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-PH', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
-}
+import { formatDate } from '@/lib/format'
+import { STATUS_LABEL, STATUS_CLASS } from '@/lib/job-status'
 
 export default function HomeownerDashboard() {
   const { appUser } = useAuth()

@@ -1,57 +1,21 @@
-import { useState } from 'react'
 import { Link } from 'react-router'
-import { useAuth } from '@/contexts/AuthContext'
-import {
-  useJobPostsQuery,
-  useMyBidsQuery,
-  type BidStatus,
-} from '@/generated/graphql'
 import { Select } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
-
-const CATEGORIES = [
-  'Plumbing',
-  'Electrical',
-  'Roofing',
-  'Carpentry',
-  'Painting',
-  'Tiling',
-  'Landscaping',
-  'General',
-] as const
-
-const BID_STATUS_LABEL: Record<BidStatus, string> = {
-  PENDING: 'Bid pending',
-  ACCEPTED: 'Bid accepted',
-  REJECTED: 'Bid rejected',
-}
-
-const BID_STATUS_CLASS: Record<BidStatus, string> = {
-  PENDING: 'bg-yellow-100 text-yellow-800',
-  ACCEPTED: 'bg-green-100 text-green-800',
-  REJECTED: 'bg-gray-100 text-gray-500',
-}
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-PH', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
-}
+import { formatDate } from '@/lib/format'
+import { BID_STATUS_CLASS, BID_STATUS_LABEL, CATEGORIES } from '@/lib/job-status'
+import { useServiceProviderDashboard } from './hooks/useServiceProviderDashboard'
 
 export default function ServiceProviderDashboard() {
-  const { appUser } = useAuth()
-  const [category, setCategory] = useState('')
-
-  const [{ data: jobsData, fetching: jobsFetching }] = useJobPostsQuery({
-    variables: { filter: { status: 'OPEN', ...(category ? { category } : {}) } },
-  })
-  const [{ data: myBidsData, fetching: myBidsFetching }] = useMyBidsQuery()
-
-  const openJobs = jobsData?.jobPosts ?? []
-  const myBids = myBidsData?.myBids ?? []
-  const bidMap = new Map(myBids.map((b) => [b.jobPostId, b]))
+  const {
+    appUser,
+    category,
+    setCategory,
+    openJobs,
+    myBids,
+    bidMap,
+    jobsFetching,
+    myBidsFetching,
+  } = useServiceProviderDashboard()
 
   return (
     <div className="space-y-10">

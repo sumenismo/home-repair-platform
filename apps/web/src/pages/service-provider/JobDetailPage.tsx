@@ -1,99 +1,28 @@
-import { useParams, Link } from 'react-router'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import {
-  useJobPostQuery,
-  useMyBidsQuery,
-  usePlaceBidMutation,
-  type JobPostStatus,
-} from '@/generated/graphql'
+import { Link } from 'react-router'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
-
-const STATUS_LABEL: Record<JobPostStatus, string> = {
-  OPEN: 'Open',
-  IN_REVIEW: 'In review',
-  ACCEPTED: 'Accepted',
-  CLOSED: 'Closed',
-}
-
-const STATUS_CLASS: Record<JobPostStatus, string> = {
-  OPEN: 'bg-green-100 text-green-800',
-  IN_REVIEW: 'bg-yellow-100 text-yellow-800',
-  ACCEPTED: 'bg-blue-100 text-blue-800',
-  CLOSED: 'bg-gray-100 text-gray-600',
-}
-
-const BID_STATUS_CLASS = {
-  PENDING: 'bg-yellow-100 text-yellow-800',
-  ACCEPTED: 'bg-green-100 text-green-800',
-  REJECTED: 'bg-gray-100 text-gray-500',
-}
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-PH', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
-}
-
-function formatAddress(post: {
-  street?: string | null
-  barangay?: string | null
-  cityMunicipality?: string | null
-  province?: string | null
-  region?: string | null
-}) {
-  return [post.street, post.barangay, post.cityMunicipality, post.province, post.region]
-    .filter(Boolean)
-    .join(', ')
-}
-
-const bidSchema = z.object({
-  message: z.string().max(500, 'Message must be 500 characters or fewer').optional(),
-})
-
-type BidFormValues = z.infer<typeof bidSchema>
+import { formatDate } from '@/lib/format'
+import { STATUS_LABEL, STATUS_CLASS, BID_STATUS_CLASS } from '@/lib/job-status'
+import { useServiceProviderJobDetail } from './hooks/useServiceProviderJobDetail'
 
 export default function ServiceProviderJobDetailPage() {
-  const { id } = useParams<{ id: string }>()
-
-  const [{ data: postData, fetching: postFetching }] = useJobPostQuery({
-    variables: { id: id! },
-  })
-  const [{ data: myBidsData, fetching: myBidsFetching }, refetchMyBids] = useMyBidsQuery()
-  const [, placeBid] = usePlaceBidMutation()
-
   const {
+    post,
+    postFetching,
+    myBidsFetching,
+    existingBid,
+    isOpen,
+    isFull,
+    address,
     register,
     handleSubmit,
-    reset,
-    setError,
-    formState: { errors, isSubmitting },
-  } = useForm<BidFormValues>({ resolver: zodResolver(bidSchema) })
-
-  const post = postData?.jobPost
-  const existingBid = myBidsData?.myBids.find((b) => b.jobPostId === id)
-
-  const onSubmit = async (values: BidFormValues) => {
-    const result = await placeBid({
-      jobPostId: id!,
-      message: values.message || undefined,
-    })
-
-    if (result.error) {
-      setError('root', { message: result.error.graphQLErrors[0]?.message ?? result.error.message })
-      return
-    }
-
-    reset()
-    refetchMyBids()
-  }
+    onSubmit,
+    errors,
+    isSubmitting,
+  } = useServiceProviderJobDetail()
 
   if (postFetching || myBidsFetching) {
     return <p className="text-muted-foreground text-sm">Loading…</p>
@@ -109,10 +38,6 @@ export default function ServiceProviderJobDetailPage() {
       </div>
     )
   }
-
-  const address = formatAddress(post)
-  const isOpen = post.status === 'OPEN'
-  const isFull = post.bidCount >= 5
 
   return (
     <div className="max-w-3xl space-y-6">

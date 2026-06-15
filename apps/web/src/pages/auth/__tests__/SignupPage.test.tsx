@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router'
-import SignupPage from './SignupPage'
+import SignupPage from '../SignupPage'
 
 const { mockSignUp, mockSetAppUser, mockRegisterUser } = vi.hoisted(() => ({
   mockSignUp: vi.fn(),
@@ -46,7 +46,6 @@ function renderSignupPage() {
 
 beforeEach(() => {
   vi.clearAllMocks()
-  // Safe default so any test that reaches signUp doesn't crash with undefined
   mockSignUp.mockResolvedValue({ data: { session: null }, error: null })
 })
 
@@ -69,7 +68,6 @@ describe('SignupPage', () => {
     const serviceProviderBtn = screen.getByRole('button', { name: 'Service Provider' })
     await userEvent.click(serviceProviderBtn)
 
-    // Clicking Service Provider should give it the primary style; submit should not show role error
     await userEvent.type(screen.getByLabelText(/full name/i), 'Bob Builder')
     await userEvent.type(screen.getByLabelText(/email/i), 'bob@example.com')
     await userEvent.type(screen.getByLabelText(/password/i), 'password123')

@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router'
-import LoginPage from './LoginPage'
+import LoginPage from '../LoginPage'
 
 const { mockSignInWithPassword, mockGqlQuery, mockSetAppUser, mockSignOut } = vi.hoisted(() => ({
   mockSignInWithPassword: vi.fn(),

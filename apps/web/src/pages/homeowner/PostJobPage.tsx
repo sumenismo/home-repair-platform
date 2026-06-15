@@ -1,125 +1,35 @@
-import { useState, useEffect, useRef } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { Link, useNavigate } from 'react-router'
-import {
-  getAllRegions,
-  getProvincesByRegion,
-  getMunicipalitiesByProvince,
-  getBarangaysByMunicipality,
-} from '@aivangogh/ph-address'
-import { useCreateJobPostMutation, useMeQuery } from '@/generated/graphql'
+import { Link } from 'react-router'
+import { getAllRegions } from '@aivangogh/ph-address'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Select } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-
-const CATEGORIES = [
-  'Plumbing',
-  'Electrical',
-  'Roofing',
-  'Carpentry',
-  'Painting',
-  'Tiling',
-  'Landscaping',
-  'General',
-] as const
-
-const schema = z.object({
-  title: z.string().min(5, 'Title must be at least 5 characters'),
-  description: z.string().min(20, 'Description must be at least 20 characters'),
-  category: z.enum(CATEGORIES, { required_error: 'Please select a category' }),
-  street: z.string().optional(),
-  barangay: z.string().optional(),
-  cityMunicipality: z.string().optional(),
-  province: z.string().optional(),
-  region: z.string().optional(),
-})
-
-type FormValues = z.infer<typeof schema>
+import { CATEGORIES } from '@/lib/job-status'
+import { usePostJobPage } from './hooks/usePostJobPage'
 
 const ALL_REGIONS = getAllRegions()
 
 export default function PostJobPage() {
-  const navigate = useNavigate()
-  const [, createJobPost] = useCreateJobPostMutation()
-  const [{ data: meData }] = useMeQuery()
-
-  const [selectedRegionCode, setSelectedRegionCode] = useState('')
-  const [selectedProvinceCode, setSelectedProvinceCode] = useState('')
-  const [selectedCityCode, setSelectedCityCode] = useState('')
-
-  const provinces = selectedRegionCode ? getProvincesByRegion(selectedRegionCode) : []
-  const cities = selectedProvinceCode ? getMunicipalitiesByProvince(selectedProvinceCode) : []
-  const barangays = selectedCityCode ? getBarangaysByMunicipality(selectedCityCode) : []
-
   const {
     register,
     handleSubmit,
-    watch,
-    setValue,
-    setError,
-    formState: { errors, isSubmitting },
-  } = useForm<FormValues>({ resolver: zodResolver(schema) })
-
-  const watchedRegion = watch('region') ?? ''
-  const watchedProvince = watch('province') ?? ''
-  const watchedCityMunicipality = watch('cityMunicipality') ?? ''
-  const watchedBarangay = watch('barangay') ?? ''
-
-  const autoFilled = useRef(false)
-  useEffect(() => {
-    if (autoFilled.current) return
-    const hp = meData?.me?.homeownerProfile
-    if (!hp) return
-    autoFilled.current = true
-
-    if (hp.address) setValue('street', hp.address)
-
-    const regionObj = ALL_REGIONS.find((r) => r.name === hp.region)
-    const regionCode = regionObj?.psgcCode ?? ''
-    setSelectedRegionCode(regionCode)
-    if (hp.region) setValue('region', hp.region)
-
-    const provincesInRegion = regionCode ? getProvincesByRegion(regionCode) : []
-    const provinceObj = provincesInRegion.find((p) => p.name === hp.province)
-    const provinceCode = provincesInRegion.length === 0 ? regionCode : (provinceObj?.psgcCode ?? '')
-    setSelectedProvinceCode(provinceCode)
-    if (hp.province) setValue('province', hp.province)
-
-    const citiesInProvince = provinceCode ? getMunicipalitiesByProvince(provinceCode) : []
-    const cityObj = citiesInProvince.find((c) => c.name === hp.cityMunicipality)
-    const cityCode = cityObj?.psgcCode ?? ''
-    setSelectedCityCode(cityCode)
-    if (hp.cityMunicipality) setValue('cityMunicipality', hp.cityMunicipality)
-
-    if (hp.barangay) setValue('barangay', hp.barangay)
-  }, [meData, setValue])
-
-  const onSubmit = async (values: FormValues) => {
-    const result = await createJobPost({
-      input: {
-        title: values.title,
-        description: values.description,
-        category: values.category,
-        street: values.street || undefined,
-        barangay: values.barangay || undefined,
-        cityMunicipality: values.cityMunicipality || undefined,
-        province: values.province || undefined,
-        region: values.region || undefined,
-      },
-    })
-
-    if (result.error) {
-      setError('root', { message: result.error.message })
-      return
-    }
-
-    void navigate('/homeowner', { replace: true })
-  }
+    onSubmit,
+    errors,
+    isSubmitting,
+    watchedRegion,
+    watchedProvince,
+    watchedCityMunicipality,
+    watchedBarangay,
+    provinces,
+    cities,
+    barangays,
+    handleRegionChange,
+    handleProvinceChange,
+    handleCityChange,
+    handleBarangayChange,
+  } = usePostJobPage()
 
   return (
     <div className="max-w-2xl">
@@ -180,18 +90,7 @@ export default function PostJobPage() {
                   id="region"
                   value={watchedRegion}
                   {...register('region')}
-                  onChange={(e) => {
-                    const selected = ALL_REGIONS.find((r) => r.name === e.target.value)
-                    const regionCode = selected?.psgcCode ?? ''
-                    const regionProvinces = regionCode ? getProvincesByRegion(regionCode) : []
-                    setSelectedRegionCode(regionCode)
-                    setSelectedProvinceCode(regionProvinces.length === 0 ? regionCode : '')
-                    setSelectedCityCode('')
-                    setValue('region', e.target.value)
-                    setValue('province', '')
-                    setValue('cityMunicipality', '')
-                    setValue('barangay', '')
-                  }}
+                  onChange={(e) => handleRegionChange(e.target.value)}
                 >
                   <option value="">Select region…</option>
                   {ALL_REGIONS.map((r) => (
@@ -209,14 +108,7 @@ export default function PostJobPage() {
                   value={watchedProvince}
                   {...register('province')}
                   disabled={provinces.length === 0}
-                  onChange={(e) => {
-                    const selected = provinces.find((p) => p.name === e.target.value)
-                    setSelectedProvinceCode(selected?.psgcCode ?? '')
-                    setSelectedCityCode('')
-                    setValue('province', e.target.value)
-                    setValue('cityMunicipality', '')
-                    setValue('barangay', '')
-                  }}
+                  onChange={(e) => handleProvinceChange(e.target.value)}
                 >
                   <option value="">Select province…</option>
                   {provinces.map((p) => (
@@ -234,12 +126,7 @@ export default function PostJobPage() {
                   value={watchedCityMunicipality}
                   {...register('cityMunicipality')}
                   disabled={cities.length === 0}
-                  onChange={(e) => {
-                    const selected = cities.find((c) => c.name === e.target.value)
-                    setSelectedCityCode(selected?.psgcCode ?? '')
-                    setValue('cityMunicipality', e.target.value)
-                    setValue('barangay', '')
-                  }}
+                  onChange={(e) => handleCityChange(e.target.value)}
                 >
                   <option value="">Select city/municipality…</option>
                   {cities.map((c) => (
@@ -257,7 +144,7 @@ export default function PostJobPage() {
                   value={watchedBarangay}
                   {...register('barangay')}
                   disabled={barangays.length === 0}
-                  onChange={(e) => setValue('barangay', e.target.value)}
+                  onChange={(e) => handleBarangayChange(e.target.value)}
                 >
                   <option value="">Select barangay…</option>
                   {barangays.map((b) => (

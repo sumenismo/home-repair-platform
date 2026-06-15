@@ -1,79 +1,26 @@
-import { useState } from 'react'
-import { useParams, Link, useNavigate } from 'react-router'
-import {
-  useJobPostQuery,
-  useBidsQuery,
-  useAcceptBidMutation,
-  useRejectBidMutation,
-  useCloseJobPostMutation,
-  type JobPostStatus,
-  type BidStatus,
-  type BidsQuery,
-} from '@/generated/graphql'
+import { Link } from 'react-router'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
+import { formatDate } from '@/lib/format'
+import { STATUS_LABEL, STATUS_CLASS, BID_STATUS_CLASS } from '@/lib/job-status'
 import ServiceProviderProfileModal from './ServiceProviderProfileModal'
-
-type Bid = BidsQuery['bids'][number]
-
-const STATUS_LABEL: Record<JobPostStatus, string> = {
-  OPEN: 'Open',
-  IN_REVIEW: 'In review',
-  ACCEPTED: 'Accepted',
-  CLOSED: 'Closed',
-}
-
-const STATUS_CLASS: Record<JobPostStatus, string> = {
-  OPEN: 'bg-green-100 text-green-800',
-  IN_REVIEW: 'bg-yellow-100 text-yellow-800',
-  ACCEPTED: 'bg-blue-100 text-blue-800',
-  CLOSED: 'bg-gray-100 text-gray-600',
-}
-
-const BID_STATUS_CLASS: Record<BidStatus, string> = {
-  PENDING: 'bg-yellow-100 text-yellow-800',
-  ACCEPTED: 'bg-green-100 text-green-800',
-  REJECTED: 'bg-gray-100 text-gray-500',
-}
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-PH', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
-}
-
-function formatAddress(post: {
-  street?: string | null
-  barangay?: string | null
-  cityMunicipality?: string | null
-  province?: string | null
-  region?: string | null
-}) {
-  return [post.street, post.barangay, post.cityMunicipality, post.province, post.region]
-    .filter(Boolean)
-    .join(', ')
-}
+import { useHomeownerJobDetail } from './hooks/useHomeownerJobDetail'
 
 export default function JobDetailPage() {
-  const { id } = useParams<{ id: string }>()
-  const navigate = useNavigate()
-  const [selectedBid, setSelectedBid] = useState<Bid | null>(null)
-
-  const [{ data: postData, fetching: postFetching }] = useJobPostQuery({
-    variables: { id: id! },
-  })
-  const [{ data: bidsData, fetching: bidsFetching }, refetchBids] = useBidsQuery({
-    variables: { jobPostId: id! },
-  })
-  const [, acceptBid] = useAcceptBidMutation()
-  const [, rejectBid] = useRejectBidMutation()
-  const [, closePost] = useCloseJobPostMutation()
-
-  const post = postData?.jobPost
-  const bids = bidsData?.bids ?? []
+  const {
+    post,
+    bids,
+    postFetching,
+    bidsFetching,
+    canManageBids,
+    address,
+    selectedBid,
+    setSelectedBid,
+    handleAccept,
+    handleReject,
+    handleClose,
+  } = useHomeownerJobDetail()
 
   if (postFetching) {
     return <p className="text-muted-foreground text-sm">Loading…</p>
@@ -88,24 +35,6 @@ export default function JobDetailPage() {
         </Link>
       </div>
     )
-  }
-
-  const canManageBids = post.status === 'OPEN' || post.status === 'IN_REVIEW'
-  const address = formatAddress(post)
-
-  const handleAccept = async (bidId: string) => {
-    await acceptBid({ bidId })
-    refetchBids()
-  }
-
-  const handleReject = async (bidId: string) => {
-    await rejectBid({ bidId })
-    refetchBids()
-  }
-
-  const handleClose = async () => {
-    await closePost({ id: post.id })
-    void navigate('/homeowner', { replace: true })
   }
 
   return (
