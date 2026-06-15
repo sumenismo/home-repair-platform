@@ -57,6 +57,7 @@ export function usePostJobPage() {
     if (hp.province) setValue('province', hp.province)
     if (hp.cityMunicipality) setValue('cityMunicipality', hp.cityMunicipality)
     if (hp.barangay) setValue('barangay', hp.barangay)
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- phAddress recreated each render; ref guard ensures single execution
   }, [meData, setValue])
 
   const handleRegionChange = (name: string) => {

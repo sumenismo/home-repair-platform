@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { sql } from '@home-repair/db'
 import { ListingsService } from './listings.service.js'
-import { createUser, createJobPost, createBid, createSPProfile } from '../../test/factories.js'
+import { createUser, createJobPost, createBid } from '../../test/factories.js'
 
 describe('ListingsService', () => {
   describe('createJobPost', () => {

@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useMeQuery, useUpdateProfileMutation } from '@/generated/graphql'
-import { CATEGORIES } from '@/lib/job-status'
 
 const schema = z.object({
   fullName: z.string().min(2, 'Name must be at least 2 characters'),
