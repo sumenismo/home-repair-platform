@@ -9,6 +9,12 @@ export const identityResolvers: Resolvers = {
       if (!user) return null
       return IdentityService.getUser(ctx.sql, user.id)
     },
+    serviceProviders: async (_, { filter, limit, offset }, ctx) => {
+      const user = await ctx.getUser()
+      if (!user) throw Errors.unauthenticated()
+      if (user.role !== 'HOMEOWNER') throw Errors.forbidden()
+      return IdentityService.searchServiceProviders(ctx.sql, filter, limit ?? 10, offset ?? 0)
+    },
   },
 
   Mutation: {

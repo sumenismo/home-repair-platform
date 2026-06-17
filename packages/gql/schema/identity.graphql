@@ -55,8 +55,15 @@ input UpdateProfileInput {
   bio: String
 }
 
+input ServiceProviderFilter {
+  keyword: String
+  cities: [String!]
+  category: String
+}
+
 extend type Query {
   me: User
+  serviceProviders(filter: ServiceProviderFilter, limit: Int, offset: Int): [User!]!
 }
 
 extend type Mutation {

@@ -1,0 +1,16 @@
+query SearchProviders($filter: ServiceProviderFilter, $limit: Int, $offset: Int) {
+  serviceProviders(filter: $filter, limit: $limit, offset: $offset) {
+    id
+    fullName
+    phone
+    email
+    serviceProviderProfile {
+      businessName
+      isCompany
+      tradeCategories
+      serviceCities
+      bio
+      verified
+    }
+  }
+}

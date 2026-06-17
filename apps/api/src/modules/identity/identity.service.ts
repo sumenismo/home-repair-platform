@@ -70,6 +70,29 @@ export const IdentityService = {
     return profile ?? null
   },
 
+  async searchServiceProviders(
+    sql: Sql,
+    filter?: { keyword?: string | null; cities?: string[] | null; category?: string | null } | null,
+    limit = 10,
+    offset = 0,
+  ): Promise<UserRow[]> {
+    const keyword = filter?.keyword ?? null
+    const cities = filter?.cities?.length ? filter.cities : null
+    const category = filter?.category ?? null
+
+    return sql<UserRow[]>`
+      SELECT u.id, u.email, u.role, u.full_name, u.phone, u.created_at
+      FROM users u
+      JOIN service_provider_profiles spp ON spp.user_id = u.id
+      WHERE u.role = 'SERVICE_PROVIDER'
+        ${keyword ? sql`AND (u.full_name ILIKE ${'%' + keyword + '%'} OR spp.business_name ILIKE ${'%' + keyword + '%'})` : sql``}
+        ${cities ? sql`AND spp.service_cities && ${sql.array(cities)}` : sql``}
+        ${category ? sql`AND ${category} = ANY(spp.trade_categories)` : sql``}
+      ORDER BY u.full_name
+      LIMIT ${limit} OFFSET ${offset}
+    `
+  },
+
   async updateProfile(sql: Sql, userId: string, input: UpdateProfileInput): Promise<UserRow> {
     const {
       fullName,

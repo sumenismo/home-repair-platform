@@ -12,6 +12,7 @@ export default function AppLayout() {
     appUser.role === 'HOMEOWNER'
       ? [
           { to: '/homeowner', label: 'Dashboard' },
+          { to: '/homeowner/find-providers', label: 'Find Providers' },
           { to: '/homeowner/profile', label: 'Profile' },
         ]
       : [

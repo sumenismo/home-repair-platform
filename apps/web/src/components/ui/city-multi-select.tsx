@@ -1,6 +1,5 @@
 import { useMemo, useRef, useState } from 'react'
 import { getAllRegions, getProvincesByRegion, getMunicipalitiesByProvince } from '@aivangogh/ph-address'
-import { Input } from '@/components/ui/input'
 import { X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -28,8 +27,6 @@ const INDEPENDENT_BY_REGION: Record<string, string[]> = {
   '1600000000': ['Butuan City'],
 }
 
-// All cities/municipalities: "name" is the stored value; "label" is displayed.
-// name matches job_posts.city_municipality; label adds province for disambiguation.
 const ALL_CITIES: CityEntry[] = getAllRegions()
   .flatMap((region) => {
     const provinces = getProvincesByRegion(region.psgcCode)
@@ -47,7 +44,6 @@ const ALL_CITIES: CityEntry[] = getAllRegions()
   })
   .sort((a, b) => a.label.localeCompare(b.label))
 
-// name → label lookup for rendering chips
 const CITY_LABEL = new Map<string, string>(ALL_CITIES.map((c) => [c.name, c.label]))
 
 // ─── component ───────────────────────────────────────────────────────────────
@@ -84,64 +80,67 @@ export function CityMultiSelect({
   const remove = (name: string) => onChange(value.filter((v) => v !== name))
 
   return (
-    <div className="space-y-2">
-      {value.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
-          {value.map((name) => (
-            <span
-              key={name}
-              className="bg-primary text-primary-foreground inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium"
+    <div className="relative">
+      <div
+        className={cn(
+          'flex min-h-9 w-full flex-wrap items-center gap-1.5 rounded-md border border-input bg-transparent px-3 py-1.5 shadow-sm transition-colors cursor-text',
+          'focus-within:ring-1 focus-within:ring-ring',
+        )}
+        onClick={() => inputRef.current?.focus()}
+      >
+        {value.map((name) => (
+          <span
+            key={name}
+            className="bg-primary text-primary-foreground inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium"
+          >
+            {CITY_LABEL.get(name) ?? name}
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); remove(name) }}
+              className="hover:text-primary-foreground/70 rounded-full"
+              aria-label={`Remove ${name}`}
             >
-              {CITY_LABEL.get(name) ?? name}
-              <button
-                type="button"
-                onClick={() => remove(name)}
-                className="hover:text-primary-foreground/70 rounded-full"
-                aria-label={`Remove ${name}`}
-              >
-                <X className="h-3 w-3" />
-              </button>
-            </span>
-          ))}
-        </div>
-      )}
+              <X className="h-3 w-3" />
+            </button>
+          </span>
+        ))}
 
-      <div className="relative">
-        <Input
+        <input
           ref={inputRef}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           onFocus={() => setOpen(true)}
           onBlur={() => setTimeout(() => setOpen(false), 150)}
-          placeholder={placeholder}
+          placeholder={value.length === 0 ? placeholder : ''}
           autoComplete="off"
+          className="min-w-[80px] flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
         />
-
-        {open && search.length > 0 && (
-          <ul className={cn(
-            'border-input bg-background absolute z-10 mt-1 max-h-52 w-full overflow-y-auto rounded-md border shadow-md',
-          )}>
-            {filtered.length > 0 ? (
-              filtered.map((city) => (
-                <li key={city.label}>
-                  <button
-                    type="button"
-                    onMouseDown={(e) => e.preventDefault()}
-                    onClick={() => add(city)}
-                    className="hover:bg-accent hover:text-accent-foreground w-full px-3 py-2 text-left text-sm"
-                  >
-                    {city.label}
-                  </button>
-                </li>
-              ))
-            ) : (
-              <li className="text-muted-foreground px-3 py-2 text-sm">
-                No results for "{search}"
-              </li>
-            )}
-          </ul>
-        )}
       </div>
+
+      {open && search.length > 0 && (
+        <ul className={cn(
+          'border-input bg-background absolute z-10 mt-1 max-h-52 w-full overflow-y-auto rounded-md border shadow-md',
+        )}>
+          {filtered.length > 0 ? (
+            filtered.map((city) => (
+              <li key={city.label}>
+                <button
+                  type="button"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => add(city)}
+                  className="hover:bg-accent hover:text-accent-foreground w-full px-3 py-2 text-left text-sm"
+                >
+                  {city.label}
+                </button>
+              </li>
+            ))
+          ) : (
+            <li className="text-muted-foreground px-3 py-2 text-sm">
+              No results for "{search}"
+            </li>
+          )}
+        </ul>
+      )}
     </div>
   )
 }
