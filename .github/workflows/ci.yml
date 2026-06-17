@@ -90,8 +90,11 @@ jobs:
           docker build --progress=plain -f apps/api/Dockerfile \
             -t $REGISTRY/$IMAGE_REPO:api-${{ github.sha }} \
             -t $REGISTRY/$IMAGE_REPO:api-latest .
-          docker push $REGISTRY/$IMAGE_REPO:api-${{ github.sha }}
-          docker push $REGISTRY/$IMAGE_REPO:api-latest
+          for i in 1 2 3; do
+            docker push $REGISTRY/$IMAGE_REPO:api-${{ github.sha }} && \
+            docker push $REGISTRY/$IMAGE_REPO:api-latest && break
+            echo "Push attempt $i failed, retrying…"; sleep 10
+          done
 
       - name: Build and push web image
         run: |
@@ -101,8 +104,11 @@ jobs:
             --build-arg VITE_API_URL=${{ secrets.VITE_API_URL }} \
             -t $REGISTRY/$IMAGE_REPO:web-${{ github.sha }} \
             -t $REGISTRY/$IMAGE_REPO:web-latest .
-          docker push $REGISTRY/$IMAGE_REPO:web-${{ github.sha }}
-          docker push $REGISTRY/$IMAGE_REPO:web-latest
+          for i in 1 2 3; do
+            docker push $REGISTRY/$IMAGE_REPO:web-${{ github.sha }} && \
+            docker push $REGISTRY/$IMAGE_REPO:web-latest && break
+            echo "Push attempt $i failed, retrying…"; sleep 10
+          done
 
       - name: Ensure deploy directory exists
         uses: appleboy/ssh-action@v1.0.3
@@ -120,6 +126,20 @@ jobs:
           key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
           source: docker-compose.prod.yml
           target: /opt/home-repair/
+
+      - name: Clean up old registry tags
+        run: |
+          for REPO in api web; do
+            doctl registry repository list-tags ${{ secrets.DO_REGISTRY_NAME }}/home-repair \
+              --no-header --format Tag \
+              | grep "^${REPO}-" \
+              | grep -v "^${REPO}-${{ github.sha }}$" \
+              | xargs -I{} doctl registry repository delete-tag \
+                  ${{ secrets.DO_REGISTRY_NAME }}/home-repair {} --force || true
+          done
+          doctl registry garbage-collection start \
+            --include-untagged-manifests --force \
+            ${{ secrets.DO_REGISTRY_NAME }} || true
 
       - name: Deploy to Droplet
         uses: appleboy/ssh-action@v1.0.3
