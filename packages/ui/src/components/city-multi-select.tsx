@@ -1,5 +1,9 @@
 import { useMemo, useRef, useState } from 'react'
-import { getAllRegions, getProvincesByRegion, getMunicipalitiesByProvince } from '@aivangogh/ph-address'
+import {
+  getAllRegions,
+  getProvincesByRegion,
+  getMunicipalitiesByProvince,
+} from '@aivangogh/ph-address'
 import { cn } from '../lib/utils'
 import { CloseIcon } from '../icons'
 
@@ -9,9 +13,22 @@ type CityEntry = { name: string; label: string }
 
 const INDEPENDENT_BY_REGION: Record<string, string[]> = {
   '1300000000': [
-    'Caloocan', 'Las Piñas', 'Makati', 'Malabon', 'Mandaluyong', 'Manila',
-    'Marikina', 'Muntinlupa', 'Navotas', 'Parañaque', 'Pasay', 'Pasig',
-    'Quezon City', 'San Juan', 'Taguig', 'Valenzuela',
+    'Caloocan',
+    'Las Piñas',
+    'Makati',
+    'Malabon',
+    'Mandaluyong',
+    'Manila',
+    'Marikina',
+    'Muntinlupa',
+    'Navotas',
+    'Parañaque',
+    'Pasay',
+    'Pasig',
+    'Quezon City',
+    'San Juan',
+    'Taguig',
+    'Valenzuela',
   ],
   '1400000000': ['Baguio City'],
   '0300000000': ['Angeles City', 'Olongapo City'],
@@ -96,7 +113,10 @@ export function CityMultiSelect({
             {CITY_LABEL.get(name) ?? name}
             <button
               type="button"
-              onClick={(e) => { e.stopPropagation(); remove(name) }}
+              onClick={(e) => {
+                e.stopPropagation()
+                remove(name)
+              }}
               className="hover:text-primary-foreground/70 rounded-full"
               aria-label={`Remove ${name}`}
             >
@@ -118,9 +138,11 @@ export function CityMultiSelect({
       </div>
 
       {open && search.length > 0 && (
-        <ul className={cn(
-          'border-input bg-card absolute z-10 mt-1 max-h-52 w-full overflow-y-auto rounded-lg border shadow-md',
-        )}>
+        <ul
+          className={cn(
+            'border-input bg-card absolute z-10 mt-1 max-h-52 w-full overflow-y-auto rounded-lg border shadow-md',
+          )}
+        >
           {filtered.length > 0 ? (
             filtered.map((city) => (
               <li key={city.label}>
@@ -135,9 +157,7 @@ export function CityMultiSelect({
               </li>
             ))
           ) : (
-            <li className="text-muted-foreground px-3 py-2 text-sm">
-              No results for "{search}"
-            </li>
+            <li className="text-muted-foreground px-3 py-2 text-sm">No results for "{search}"</li>
           )}
         </ul>
       )}

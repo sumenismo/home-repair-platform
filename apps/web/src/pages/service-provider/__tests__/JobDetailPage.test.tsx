@@ -31,7 +31,13 @@ vi.mock('@/generated/graphql', () => ({
 }))
 
 vi.mock('@/contexts/AuthContext', () => ({
-  useAuth: () => ({ appUser: null, session: null, loading: false, signOut: vi.fn(), setAppUser: vi.fn() }),
+  useAuth: () => ({
+    appUser: null,
+    session: null,
+    loading: false,
+    signOut: vi.fn(),
+    setAppUser: vi.fn(),
+  }),
 }))
 
 import { useJobPostQuery, useMyBidsQuery, usePlaceBidMutation } from '@/generated/graphql'
@@ -49,15 +55,22 @@ function renderPage(jobId = 'post-1') {
 
 beforeEach(() => {
   vi.clearAllMocks()
-  vi.mocked(useJobPostQuery).mockReturnValue([{ data: { jobPost: mockPost }, fetching: false, stale: false, error: undefined }] as any)
-  vi.mocked(useMyBidsQuery).mockReturnValue([{ data: { myBids: [] }, fetching: false, stale: false, error: undefined }, mockRefetchMyBids] as any)
+  vi.mocked(useJobPostQuery).mockReturnValue([
+    { data: { jobPost: mockPost }, fetching: false, stale: false, error: undefined },
+  ] as any)
+  vi.mocked(useMyBidsQuery).mockReturnValue([
+    { data: { myBids: [] }, fetching: false, stale: false, error: undefined },
+    mockRefetchMyBids,
+  ] as any)
   vi.mocked(usePlaceBidMutation).mockReturnValue([undefined, mockPlaceBid] as any)
   mockPlaceBid.mockResolvedValue({ data: {}, error: null })
 })
 
 describe('ServiceProviderJobDetailPage', () => {
   it('renders loading state', () => {
-    vi.mocked(useJobPostQuery).mockReturnValue([{ data: undefined, fetching: true, stale: false, error: undefined }] as any)
+    vi.mocked(useJobPostQuery).mockReturnValue([
+      { data: undefined, fetching: true, stale: false, error: undefined },
+    ] as any)
     renderPage()
     expect(screen.getByText('Loading…')).toBeInTheDocument()
   })
@@ -83,32 +96,41 @@ describe('ServiceProviderJobDetailPage', () => {
       message: 'I can help',
       createdAt: '2024-01-16T00:00:00.000Z',
     }
-    vi.mocked(useMyBidsQuery).mockReturnValue([{ data: { myBids: [existingBid] }, fetching: false, stale: false, error: undefined }, mockRefetchMyBids] as any)
+    vi.mocked(useMyBidsQuery).mockReturnValue([
+      { data: { myBids: [existingBid] }, fetching: false, stale: false, error: undefined },
+      mockRefetchMyBids,
+    ] as any)
     renderPage()
     expect(screen.getByText('Your bid')).toBeInTheDocument()
     expect(screen.getByText('I can help')).toBeInTheDocument()
   })
 
   it('shows "no longer accepting bids" when job is not OPEN', () => {
-    vi.mocked(useJobPostQuery).mockReturnValue([{
-      data: { jobPost: { ...mockPost, status: 'CLOSED' } },
-      fetching: false,
-      stale: false,
-      error: undefined,
-    }] as any)
+    vi.mocked(useJobPostQuery).mockReturnValue([
+      {
+        data: { jobPost: { ...mockPost, status: 'CLOSED' } },
+        fetching: false,
+        stale: false,
+        error: undefined,
+      },
+    ] as any)
     renderPage()
     expect(screen.getByText('This job is no longer accepting bids.')).toBeInTheDocument()
   })
 
   it('shows "All bid slots are full" when bidCount >= 5', () => {
-    vi.mocked(useJobPostQuery).mockReturnValue([{
-      data: { jobPost: { ...mockPost, bidCount: 5 } },
-      fetching: false,
-      stale: false,
-      error: undefined,
-    }] as any)
+    vi.mocked(useJobPostQuery).mockReturnValue([
+      {
+        data: { jobPost: { ...mockPost, bidCount: 5 } },
+        fetching: false,
+        stale: false,
+        error: undefined,
+      },
+    ] as any)
     renderPage()
-    expect(screen.getByText('All bid slots are full. Check back if a slot opens up.')).toBeInTheDocument()
+    expect(
+      screen.getByText('All bid slots are full. Check back if a slot opens up.'),
+    ).toBeInTheDocument()
   })
 
   it('calls placeBid on form submit', async () => {

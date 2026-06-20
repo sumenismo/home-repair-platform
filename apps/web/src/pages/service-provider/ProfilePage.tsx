@@ -1,5 +1,21 @@
 import { Controller } from 'react-hook-form'
-import { Button, Input, Label, Textarea, Checkbox, Card, CardContent, CardDescription, CardHeader, CardTitle, CityMultiSelect, cn, PageHeading, PageLead, Muted } from '@home-repair/ui'
+import {
+  Button,
+  Input,
+  Label,
+  Textarea,
+  Checkbox,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CityMultiSelect,
+  cn,
+  PageHeading,
+  PageLead,
+  Muted,
+} from '@home-repair/ui'
 import { CATEGORIES } from '@/lib/job-status'
 import { useServiceProviderProfile } from './hooks/useServiceProviderProfile'
 
@@ -46,7 +62,12 @@ export default function ServiceProviderProfilePage() {
 
               <div className="space-y-1.5">
                 <Label htmlFor="phone">Phone (optional)</Label>
-                <Input id="phone" type="tel" placeholder="+63 9XX XXX XXXX" {...register('phone')} />
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="+63 9XX XXX XXXX"
+                  {...register('phone')}
+                />
               </div>
             </div>
 

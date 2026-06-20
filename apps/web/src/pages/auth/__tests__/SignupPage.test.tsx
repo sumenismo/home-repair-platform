@@ -97,7 +97,12 @@ describe('SignupPage', () => {
   })
 
   it('calls setAppUser and navigates to /service-provider on successful SERVICE_PROVIDER signup', async () => {
-    const fakeUser = { id: 'u2', email: 'bob@example.com', role: 'SERVICE_PROVIDER', fullName: 'Bob' }
+    const fakeUser = {
+      id: 'u2',
+      email: 'bob@example.com',
+      role: 'SERVICE_PROVIDER',
+      fullName: 'Bob',
+    }
     mockSignUp.mockResolvedValue({ data: { session: { access_token: 'tok' } }, error: null })
     mockRegisterUser.mockResolvedValue({ data: { registerUser: fakeUser }, error: null })
 
@@ -109,7 +114,9 @@ describe('SignupPage', () => {
     await userEvent.click(screen.getByRole('button', { name: /create account/i }))
 
     await waitFor(() => {
-      expect(mockSetAppUser).toHaveBeenCalledWith(expect.objectContaining({ role: 'SERVICE_PROVIDER' }))
+      expect(mockSetAppUser).toHaveBeenCalledWith(
+        expect.objectContaining({ role: 'SERVICE_PROVIDER' }),
+      )
       expect(screen.getByText('Service Provider dashboard')).toBeInTheDocument()
     })
   })

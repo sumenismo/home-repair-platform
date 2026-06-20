@@ -30,12 +30,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     void supabase.auth.getSession().then(async ({ data }) => {
       setSession(data.session)
       if (data.session) {
-        const result = await gqlClient
-          .query<MeQuery, MeQueryVariables>(MeDocument, {})
-          .toPromise()
+        const result = await gqlClient.query<MeQuery, MeQueryVariables>(MeDocument, {}).toPromise()
         const user = result.data?.me
         if (user) {
-          setAppUser({ id: user.id, email: user.email, role: user.role, fullName: user.fullName ?? null })
+          setAppUser({
+            id: user.id,
+            email: user.email,
+            role: user.role,
+            fullName: user.fullName ?? null,
+          })
         }
       }
       setLoading(false)

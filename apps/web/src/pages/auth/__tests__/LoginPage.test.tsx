@@ -69,7 +69,7 @@ describe('LoginPage', () => {
 
     renderLoginPage()
     await userEvent.type(screen.getByLabelText(/email/i), 'user@example.com')
-    await userEvent.type(screen.getByLabelText(/password/i), 'password123')
+    await userEvent.type(screen.getByLabelText('Password'), 'password123')
     await userEvent.click(screen.getByRole('button', { name: /sign in/i }))
 
     await waitFor(() => {
@@ -87,7 +87,7 @@ describe('LoginPage', () => {
 
     renderLoginPage()
     await userEvent.type(screen.getByLabelText(/email/i), 'user@example.com')
-    await userEvent.type(screen.getByLabelText(/password/i), 'password123')
+    await userEvent.type(screen.getByLabelText('Password'), 'password123')
     await userEvent.click(screen.getByRole('button', { name: /sign in/i }))
 
     await waitFor(() => {
@@ -107,7 +107,7 @@ describe('LoginPage', () => {
 
     renderLoginPage()
     await userEvent.type(screen.getByLabelText(/email/i), 'user@example.com')
-    await userEvent.type(screen.getByLabelText(/password/i), 'password123')
+    await userEvent.type(screen.getByLabelText('Password'), 'password123')
     await userEvent.click(screen.getByRole('button', { name: /sign in/i }))
 
     await waitFor(() => {

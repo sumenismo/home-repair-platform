@@ -14,7 +14,13 @@ vi.mock('@/generated/graphql', () => ({
 }))
 
 vi.mock('@/contexts/AuthContext', () => ({
-  useAuth: () => ({ appUser: null, session: null, loading: false, signOut: vi.fn(), setAppUser: vi.fn() }),
+  useAuth: () => ({
+    appUser: null,
+    session: null,
+    loading: false,
+    signOut: vi.fn(),
+    setAppUser: vi.fn(),
+  }),
 }))
 
 function renderPage() {
@@ -30,7 +36,10 @@ function renderPage() {
 
 beforeEach(() => {
   vi.clearAllMocks()
-  mockCreateJobPost.mockResolvedValue({ data: { createJobPost: { id: 'new-post-1' } }, error: null })
+  mockCreateJobPost.mockResolvedValue({
+    data: { createJobPost: { id: 'new-post-1' } },
+    error: null,
+  })
 })
 
 describe('PostJobPage', () => {

@@ -35,24 +35,24 @@
   --heading-font: 'Poppins', system-ui, sans-serif;
 
   /* Aprub! brand palette */
-  --primary:              oklch(0.51 0.22 27);    /* #E53935 Aprub Red */
-  --primary-foreground:   oklch(1 0 0);           /* white */
-  --accent:               oklch(0.84 0.17 87);    /* #FFC93C Aprub Yellow */
-  --accent-foreground:    oklch(0.22 0.07 241);   /* #0D2B45 Aprub Navy */
-  --secondary:            oklch(0.22 0.07 241);   /* #0D2B45 Aprub Navy */
-  --secondary-foreground: oklch(1 0 0);           /* white */
-  --background:           oklch(0.97 0.03 88);    /* #FFF3DF Aprub Cream */
-  --foreground:           oklch(0.22 0.07 241);   /* Navy text on cream */
-  --card:                 oklch(1 0 0);           /* white cards */
-  --card-foreground:      oklch(0.22 0.07 241);
-  --popover:              oklch(1 0 0);
-  --popover-foreground:   oklch(0.22 0.07 241);
-  --muted:                oklch(0.94 0 0);        /* #ECECEC Aprub Gray */
-  --muted-foreground:     oklch(0.50 0 0);
-  --border:               oklch(0.90 0.01 88);    /* warm border */
-  --input:                oklch(0.90 0.01 88);
-  --ring:                 oklch(0.51 0.22 27);    /* red focus ring */
-  --destructive:          oklch(0.51 0.22 27);    /* red */
+  --primary: oklch(0.51 0.22 27); /* #E53935 Aprub Red */
+  --primary-foreground: oklch(1 0 0); /* white */
+  --accent: oklch(0.84 0.17 87); /* #FFC93C Aprub Yellow */
+  --accent-foreground: oklch(0.22 0.07 241); /* #0D2B45 Aprub Navy */
+  --secondary: oklch(0.22 0.07 241); /* #0D2B45 Aprub Navy */
+  --secondary-foreground: oklch(1 0 0); /* white */
+  --background: oklch(0.97 0.03 88); /* #FFF3DF Aprub Cream */
+  --foreground: oklch(0.22 0.07 241); /* Navy text on cream */
+  --card: oklch(1 0 0); /* white cards */
+  --card-foreground: oklch(0.22 0.07 241);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.07 241);
+  --muted: oklch(0.94 0 0); /* #ECECEC Aprub Gray */
+  --muted-foreground: oklch(0.5 0 0);
+  --border: oklch(0.9 0.01 88); /* warm border */
+  --input: oklch(0.9 0.01 88);
+  --ring: oklch(0.51 0.22 27); /* red focus ring */
+  --destructive: oklch(0.51 0.22 27); /* red */
 }
 
 * {
@@ -64,7 +64,12 @@ body {
   color: var(--foreground);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--heading-font);
   font-weight: 700;
   color: var(--secondary);

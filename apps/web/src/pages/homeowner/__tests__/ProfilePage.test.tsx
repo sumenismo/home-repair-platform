@@ -33,7 +33,13 @@ vi.mock('@/generated/graphql', () => ({
 }))
 
 vi.mock('@/contexts/AuthContext', () => ({
-  useAuth: () => ({ appUser: null, session: null, loading: false, signOut: vi.fn(), setAppUser: vi.fn() }),
+  useAuth: () => ({
+    appUser: null,
+    session: null,
+    loading: false,
+    signOut: vi.fn(),
+    setAppUser: vi.fn(),
+  }),
 }))
 
 import { useMeQuery, useUpdateProfileMutation } from '@/generated/graphql'
@@ -48,14 +54,20 @@ function renderPage() {
 
 beforeEach(() => {
   vi.clearAllMocks()
-  vi.mocked(useMeQuery).mockReturnValue([{ data: mockMeData, fetching: false, stale: false, error: undefined }, mockReexecute] as any)
+  vi.mocked(useMeQuery).mockReturnValue([
+    { data: mockMeData, fetching: false, stale: false, error: undefined },
+    mockReexecute,
+  ] as any)
   vi.mocked(useUpdateProfileMutation).mockReturnValue([undefined, mockUpdateProfile] as any)
   mockUpdateProfile.mockResolvedValue({ data: {}, error: null })
 })
 
 describe('HomeownerProfilePage', () => {
   it('renders loading state', () => {
-    vi.mocked(useMeQuery).mockReturnValue([{ data: undefined, fetching: true, stale: false, error: undefined }, mockReexecute] as any)
+    vi.mocked(useMeQuery).mockReturnValue([
+      { data: undefined, fetching: true, stale: false, error: undefined },
+      mockReexecute,
+    ] as any)
     renderPage()
     expect(screen.getByText('Loading…')).toBeInTheDocument()
   })

@@ -10,7 +10,12 @@ describe('BiddingService', () => {
       const serviceProvider = await createUser({ role: 'SERVICE_PROVIDER' })
       const post = await createJobPost(homeowner.id)
 
-      const bid = await BiddingService.placeBid(sql, post.id, serviceProvider.id, 'I can fix this today')
+      const bid = await BiddingService.placeBid(
+        sql,
+        post.id,
+        serviceProvider.id,
+        'I can fix this today',
+      )
 
       expect(bid.status).toBe('PENDING')
       expect(bid.serviceProviderId).toBe(serviceProvider.id)

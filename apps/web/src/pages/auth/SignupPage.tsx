@@ -1,5 +1,15 @@
 import { Link } from 'react-router'
-import { Button, Input, Label, Card, CardContent, CardDescription, CardHeader, CardTitle, cn } from '@home-repair/ui'
+import {
+  Button,
+  Input,
+  Label,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  cn,
+} from '@home-repair/ui'
 import { useSignupPage } from './hooks/useSignupPage'
 
 export default function SignupPage() {

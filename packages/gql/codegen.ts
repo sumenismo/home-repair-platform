@@ -21,7 +21,8 @@ const config: CodegenConfig = {
           JobPost: '../modules/listings/listings.service.js#JobPostRow',
           User: '../modules/identity/identity.service.js#UserRow',
           HomeownerProfile: '../modules/identity/identity.service.js#HomeownerProfileRow',
-          ServiceProviderProfile: '../modules/identity/identity.service.js#ServiceProviderProfileRow',
+          ServiceProviderProfile:
+            '../modules/identity/identity.service.js#ServiceProviderProfileRow',
           Message: '../modules/messaging/messaging.service.js#MessageRow',
         },
       },

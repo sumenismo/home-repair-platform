@@ -1,5 +1,13 @@
 import type { BidsQuery } from '@/generated/graphql'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, cn, Overline } from '@home-repair/ui'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  cn,
+  Overline,
+} from '@home-repair/ui'
 
 type Bid = BidsQuery['bids'][number]
 
@@ -14,15 +22,18 @@ export default function ServiceProviderProfileModal({ bid, open, onClose }: Prop
   const profile = sp?.serviceProviderProfile
 
   return (
-    <Dialog open={open} onOpenChange={(isOpen) => { if (!isOpen) onClose() }}>
+    <Dialog
+      open={open}
+      onOpenChange={(isOpen) => {
+        if (!isOpen) onClose()
+      }}
+    >
       <DialogContent className="max-h-[90vh] overflow-y-auto">
         {sp && (
           <>
             <DialogHeader className="pb-4">
               <div className="flex items-center gap-2 flex-wrap pr-6">
-                <DialogTitle className="text-lg">
-                  {sp.fullName ?? sp.email}
-                </DialogTitle>
+                <DialogTitle className="text-lg">{sp.fullName ?? sp.email}</DialogTitle>
                 {profile?.verified && (
                   <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700">
                     Verified
@@ -30,9 +41,7 @@ export default function ServiceProviderProfileModal({ bid, open, onClose }: Prop
                 )}
               </div>
               {profile?.businessName && (
-                <DialogDescription className="text-sm">
-                  {profile.businessName}
-                </DialogDescription>
+                <DialogDescription className="text-sm">{profile.businessName}</DialogDescription>
               )}
             </DialogHeader>
 

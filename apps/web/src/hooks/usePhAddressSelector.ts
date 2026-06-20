@@ -42,9 +42,9 @@ export function usePhAddressSelector() {
   }
 
   function selectCity(name: string) {
-    const cityObj = (selectedProvinceCode ? getMunicipalitiesByProvince(selectedProvinceCode) : []).find(
-      (c) => c.name === name,
-    )
+    const cityObj = (
+      selectedProvinceCode ? getMunicipalitiesByProvince(selectedProvinceCode) : []
+    ).find((c) => c.name === name)
     setSelectedCityCode(cityObj?.psgcCode ?? '')
   }
 
@@ -63,5 +63,13 @@ export function usePhAddressSelector() {
     setSelectedCityCode(cityObj?.psgcCode ?? '')
   }
 
-  return { provinces, cities, barangays, selectRegion, selectProvince, selectCity, prefillFromAddress }
+  return {
+    provinces,
+    cities,
+    barangays,
+    selectRegion,
+    selectProvince,
+    selectCity,
+    prefillFromAddress,
+  }
 }

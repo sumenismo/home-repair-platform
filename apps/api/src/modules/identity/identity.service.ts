@@ -62,7 +62,10 @@ export const IdentityService = {
     return profile ?? null
   },
 
-  async getServiceProviderProfile(sql: Sql, userId: string): Promise<ServiceProviderProfileRow | null> {
+  async getServiceProviderProfile(
+    sql: Sql,
+    userId: string,
+  ): Promise<ServiceProviderProfileRow | null> {
     const [profile] = await sql<ServiceProviderProfileRow[]>`
       SELECT user_id, business_name, tin, is_company, trade_categories, service_cities, bio, verified
       FROM service_provider_profiles WHERE user_id = ${userId}

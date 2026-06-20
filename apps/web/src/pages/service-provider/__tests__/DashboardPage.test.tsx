@@ -10,7 +10,12 @@ vi.mock('@/generated/graphql', () => ({
 
 vi.mock('@/contexts/AuthContext', () => ({
   useAuth: () => ({
-    appUser: { id: 'sp-1', fullName: 'Bob Builder', email: 'bob@example.com', role: 'SERVICE_PROVIDER' },
+    appUser: {
+      id: 'sp-1',
+      fullName: 'Bob Builder',
+      email: 'bob@example.com',
+      role: 'SERVICE_PROVIDER',
+    },
     session: null,
     loading: false,
     signOut: vi.fn(),
@@ -54,8 +59,12 @@ function renderPage() {
 
 beforeEach(() => {
   vi.clearAllMocks()
-  vi.mocked(useJobPostsQuery).mockReturnValue([{ data: { jobPosts: [] }, fetching: false, stale: false, error: undefined }] as any)
-  vi.mocked(useMyBidsQuery).mockReturnValue([{ data: { myBids: [] }, fetching: false, stale: false, error: undefined }] as any)
+  vi.mocked(useJobPostsQuery).mockReturnValue([
+    { data: { jobPosts: [] }, fetching: false, stale: false, error: undefined },
+  ] as any)
+  vi.mocked(useMyBidsQuery).mockReturnValue([
+    { data: { myBids: [] }, fetching: false, stale: false, error: undefined },
+  ] as any)
 })
 
 describe('ServiceProviderDashboard', () => {
@@ -70,7 +79,9 @@ describe('ServiceProviderDashboard', () => {
   })
 
   it('renders job card with title and category', () => {
-    vi.mocked(useJobPostsQuery).mockReturnValue([{ data: { jobPosts: [mockJob] }, fetching: false, stale: false, error: undefined }] as any)
+    vi.mocked(useJobPostsQuery).mockReturnValue([
+      { data: { jobPosts: [mockJob] }, fetching: false, stale: false, error: undefined },
+    ] as any)
     renderPage()
     expect(screen.getByText('Fix leaking pipe')).toBeInTheDocument()
     // "Plumbing" appears both in the category filter and in the job card — confirm both are present
@@ -78,7 +89,9 @@ describe('ServiceProviderDashboard', () => {
   })
 
   it('renders my bids section with bid status', () => {
-    vi.mocked(useMyBidsQuery).mockReturnValue([{ data: { myBids: [mockBid] }, fetching: false, stale: false, error: undefined }] as any)
+    vi.mocked(useMyBidsQuery).mockReturnValue([
+      { data: { myBids: [mockBid] }, fetching: false, stale: false, error: undefined },
+    ] as any)
     renderPage()
     expect(screen.getByText('My bids')).toBeInTheDocument()
     expect(screen.getByText('Pending')).toBeInTheDocument()

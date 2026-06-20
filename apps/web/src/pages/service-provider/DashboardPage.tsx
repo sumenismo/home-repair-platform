@@ -5,16 +5,8 @@ import { BID_STATUS_CLASS, BID_STATUS_LABEL, CATEGORIES } from '@/lib/job-status
 import { useServiceProviderDashboard } from './hooks/useServiceProviderDashboard'
 
 export default function ServiceProviderDashboard() {
-  const {
-    appUser,
-    category,
-    setCategory,
-    openJobs,
-    myBids,
-    bidMap,
-    jobsFetching,
-    myBidsFetching,
-  } = useServiceProviderDashboard()
+  const { appUser, category, setCategory, openJobs, myBids, bidMap, jobsFetching, myBidsFetching } =
+    useServiceProviderDashboard()
 
   return (
     <div className="space-y-10">
@@ -27,11 +19,7 @@ export default function ServiceProviderDashboard() {
       <section className="space-y-4">
         <div className="flex items-center justify-between gap-4">
           <SectionHeading>Open jobs</SectionHeading>
-          <Select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-44"
-          >
+          <Select value={category} onChange={(e) => setCategory(e.target.value)} className="w-44">
             <option value="">All categories</option>
             {CATEGORIES.map((cat) => (
               <option key={cat} value={cat}>
@@ -84,9 +72,7 @@ export default function ServiceProviderDashboard() {
                       </div>
                     </div>
                     <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">
-                      <span>
-                        {job.bidCount} / 5 bids
-                      </span>
+                      <span>{job.bidCount} / 5 bids</span>
                       {location && <span>{location}</span>}
                       <span>{formatDate(job.createdAt)}</span>
                     </div>

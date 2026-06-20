@@ -31,7 +31,9 @@ export async function createJobPost(
     cityMunicipality?: string
   } = {},
 ) {
-  const [post] = await sql<{ id: string; homeownerId: string; status: string; cityMunicipality: string | null }[]>`
+  const [post] = await sql<
+    { id: string; homeownerId: string; status: string; cityMunicipality: string | null }[]
+  >`
     INSERT INTO job_posts (homeowner_id, title, description, category, city_municipality)
     VALUES (
       ${homeownerId},
@@ -68,12 +70,14 @@ export async function createSPProfile(
 }
 
 export async function createBid(jobPostId: string, serviceProviderId: string, message?: string) {
-  const [bid] = await sql<{
-    id: string
-    jobPostId: string
-    serviceProviderId: string
-    status: string
-  }[]>`
+  const [bid] = await sql<
+    {
+      id: string
+      jobPostId: string
+      serviceProviderId: string
+      status: string
+    }[]
+  >`
     INSERT INTO bids (job_post_id, service_provider_id, message)
     VALUES (${jobPostId}, ${serviceProviderId}, ${message ?? null})
     RETURNING *
@@ -87,13 +91,15 @@ export async function createMessage(
   recipientId: string,
   body?: string,
 ) {
-  const [message] = await sql<{
-    id: string
-    jobPostId: string
-    senderId: string
-    recipientId: string
-    body: string
-  }[]>`
+  const [message] = await sql<
+    {
+      id: string
+      jobPostId: string
+      senderId: string
+      recipientId: string
+      body: string
+    }[]
+  >`
     INSERT INTO messages (job_post_id, sender_id, recipient_id, body)
     VALUES (${jobPostId}, ${senderId}, ${recipientId}, ${body ?? 'Hello'})
     RETURNING *

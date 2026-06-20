@@ -57,7 +57,13 @@ vi.mock('@/generated/graphql', () => ({
 }))
 
 vi.mock('@/contexts/AuthContext', () => ({
-  useAuth: () => ({ appUser: null, session: null, loading: false, signOut: vi.fn(), setAppUser: vi.fn() }),
+  useAuth: () => ({
+    appUser: null,
+    session: null,
+    loading: false,
+    signOut: vi.fn(),
+    setAppUser: vi.fn(),
+  }),
 }))
 
 // Radix dialog needs this
@@ -87,8 +93,13 @@ function renderPage(jobId = 'post-1') {
 
 beforeEach(() => {
   vi.clearAllMocks()
-  vi.mocked(useJobPostQuery).mockReturnValue([{ data: { jobPost: mockPost }, fetching: false, stale: false, error: undefined }] as any)
-  vi.mocked(useBidsQuery).mockReturnValue([{ data: { bids: [] }, fetching: false, stale: false, error: undefined }, mockRefetchBids] as any)
+  vi.mocked(useJobPostQuery).mockReturnValue([
+    { data: { jobPost: mockPost }, fetching: false, stale: false, error: undefined },
+  ] as any)
+  vi.mocked(useBidsQuery).mockReturnValue([
+    { data: { bids: [] }, fetching: false, stale: false, error: undefined },
+    mockRefetchBids,
+  ] as any)
   vi.mocked(useAcceptBidMutation).mockReturnValue([undefined, mockAcceptBid] as any)
   vi.mocked(useRejectBidMutation).mockReturnValue([undefined, mockRejectBid] as any)
   vi.mocked(useCloseJobPostMutation).mockReturnValue([undefined, mockClosePost] as any)
@@ -96,13 +107,17 @@ beforeEach(() => {
 
 describe('JobDetailPage (homeowner)', () => {
   it('renders loading state', () => {
-    vi.mocked(useJobPostQuery).mockReturnValue([{ data: undefined, fetching: true, stale: false, error: undefined }] as any)
+    vi.mocked(useJobPostQuery).mockReturnValue([
+      { data: undefined, fetching: true, stale: false, error: undefined },
+    ] as any)
     renderPage()
     expect(screen.getByText('Loading…')).toBeInTheDocument()
   })
 
   it('renders not found state when post is null', () => {
-    vi.mocked(useJobPostQuery).mockReturnValue([{ data: { jobPost: null }, fetching: false, stale: false, error: undefined }] as any)
+    vi.mocked(useJobPostQuery).mockReturnValue([
+      { data: { jobPost: null }, fetching: false, stale: false, error: undefined },
+    ] as any)
     renderPage()
     expect(screen.getByText('Job post not found.')).toBeInTheDocument()
   })
@@ -121,14 +136,20 @@ describe('JobDetailPage (homeowner)', () => {
   })
 
   it('renders bid with service provider name', () => {
-    vi.mocked(useBidsQuery).mockReturnValue([{ data: { bids: [mockBid] }, fetching: false, stale: false, error: undefined }, mockRefetchBids] as any)
+    vi.mocked(useBidsQuery).mockReturnValue([
+      { data: { bids: [mockBid] }, fetching: false, stale: false, error: undefined },
+      mockRefetchBids,
+    ] as any)
     renderPage()
     expect(screen.getByText('Bob Builder')).toBeInTheDocument()
   })
 
   it('calls acceptBid when Accept is clicked', async () => {
     mockAcceptBid.mockResolvedValue({ data: {}, error: null })
-    vi.mocked(useBidsQuery).mockReturnValue([{ data: { bids: [mockBid] }, fetching: false, stale: false, error: undefined }, mockRefetchBids] as any)
+    vi.mocked(useBidsQuery).mockReturnValue([
+      { data: { bids: [mockBid] }, fetching: false, stale: false, error: undefined },
+      mockRefetchBids,
+    ] as any)
     renderPage()
 
     await userEvent.click(screen.getByRole('button', { name: /accept/i }))
@@ -140,7 +161,10 @@ describe('JobDetailPage (homeowner)', () => {
 
   it('calls rejectBid when Reject is clicked', async () => {
     mockRejectBid.mockResolvedValue({ data: {}, error: null })
-    vi.mocked(useBidsQuery).mockReturnValue([{ data: { bids: [mockBid] }, fetching: false, stale: false, error: undefined }, mockRefetchBids] as any)
+    vi.mocked(useBidsQuery).mockReturnValue([
+      { data: { bids: [mockBid] }, fetching: false, stale: false, error: undefined },
+      mockRefetchBids,
+    ] as any)
     renderPage()
 
     await userEvent.click(screen.getByRole('button', { name: /reject/i }))

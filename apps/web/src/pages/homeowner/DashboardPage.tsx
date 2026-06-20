@@ -63,7 +63,9 @@ export default function HomeownerDashboard() {
                   </span>
                   {(job.cityMunicipality || job.barangay || job.province) && (
                     <span>
-                      {[job.barangay, job.cityMunicipality, job.province].filter(Boolean).join(', ')}
+                      {[job.barangay, job.cityMunicipality, job.province]
+                        .filter(Boolean)
+                        .join(', ')}
                     </span>
                   )}
                   <span>{formatDate(job.createdAt)}</span>

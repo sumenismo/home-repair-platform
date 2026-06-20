@@ -8,6 +8,7 @@ WORKDIR /app
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY apps/web/package.json ./apps/web/
 COPY packages/gql/package.json ./packages/gql/
+COPY packages/ui/package.json ./packages/ui/
 COPY packages/tsconfig/package.json ./packages/tsconfig/
 COPY packages/eslint-config/package.json ./packages/eslint-config/
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
@@ -26,6 +27,7 @@ COPY --from=deps /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
 COPY packages/gql ./packages/gql
+COPY packages/ui ./packages/ui
 COPY packages/tsconfig ./packages/tsconfig
 COPY packages/eslint-config ./packages/eslint-config
 COPY apps/web ./apps/web

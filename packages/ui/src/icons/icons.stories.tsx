@@ -1,8 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import {
-  AirconIcon, BoltIcon, CalendarCheckIcon, CloseIcon, HammerIcon,
-  HomeIcon, LightningBoltIcon, PaintRollerIcon, PesoTagIcon,
-  SearchIcon, ShieldCheckIcon, StarIcon, ThumbsUpIcon, WrenchIcon,
+  AirconIcon,
+  BoltIcon,
+  CalendarCheckIcon,
+  CloseIcon,
+  HammerIcon,
+  HomeIcon,
+  LightningBoltIcon,
+  PaintRollerIcon,
+  PesoTagIcon,
+  SearchIcon,
+  ShieldCheckIcon,
+  StarIcon,
+  ThumbsUpIcon,
+  WrenchIcon,
 } from './index'
 
 const meta: Meta = {

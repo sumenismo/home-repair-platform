@@ -36,11 +36,13 @@ export function useFindProviders() {
     appendRef.current = false
   }, [data])
 
-  const resetAndSet = <T,>(setter: (v: T) => void) => (v: T) => {
-    appendRef.current = false
-    setter(v)
-    setOffset(0)
-  }
+  const resetAndSet =
+    <T>(setter: (v: T) => void) =>
+    (v: T) => {
+      appendRef.current = false
+      setter(v)
+      setOffset(0)
+    }
 
   const setKeyword = resetAndSet(setKeywordRaw)
   const setCities = resetAndSet(setCitiesRaw)

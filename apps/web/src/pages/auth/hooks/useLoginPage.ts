@@ -47,7 +47,9 @@ export function useLoginPage() {
       }
 
       setAppUser({ ...user, fullName: user.fullName ?? null })
-      void navigate(user.role === 'HOMEOWNER' ? '/homeowner' : '/service-provider', { replace: true })
+      void navigate(user.role === 'HOMEOWNER' ? '/homeowner' : '/service-provider', {
+        replace: true,
+      })
     } catch {
       setError('root', { message: 'Could not reach the server. Make sure the API is running.' })
     }

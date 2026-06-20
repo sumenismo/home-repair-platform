@@ -1,5 +1,15 @@
 import { Link } from 'react-router'
-import { Button, buttonVariants, Card, CardContent, CardHeader, CardTitle, cn, SectionHeading, Muted } from '@home-repair/ui'
+import {
+  Button,
+  buttonVariants,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  cn,
+  SectionHeading,
+  Muted,
+} from '@home-repair/ui'
 import { formatDate } from '@/lib/format'
 import { STATUS_LABEL, STATUS_CLASS, BID_STATUS_CLASS } from '@/lib/job-status'
 import ServiceProviderProfileModal from './ServiceProviderProfileModal'
@@ -126,9 +136,7 @@ export default function JobDetailPage() {
                       >
                         {sp.fullName ?? sp.email}
                       </button>
-                      {profile?.businessName && (
-                        <Muted>{profile.businessName}</Muted>
-                      )}
+                      {profile?.businessName && <Muted>{profile.businessName}</Muted>}
                       {profile?.tradeCategories && profile.tradeCategories.length > 0 && (
                         <p className="text-muted-foreground text-xs">
                           {profile.tradeCategories.join(' · ')}
@@ -170,11 +178,7 @@ export default function JobDetailPage() {
                         <Button size="sm" onClick={() => handleAccept(bid.id)}>
                           Accept
                         </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleReject(bid.id)}
-                        >
+                        <Button size="sm" variant="outline" onClick={() => handleReject(bid.id)}>
                           Reject
                         </Button>
                       </div>

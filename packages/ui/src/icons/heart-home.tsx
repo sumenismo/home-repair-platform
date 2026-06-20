@@ -2,7 +2,7 @@ interface IconProps {
   className?: string
 }
 
-export function WrenchIcon({ className }: IconProps) {
+export function HeartHomeIcon({ className }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +15,8 @@ export function WrenchIcon({ className }: IconProps) {
       className={className}
       aria-hidden="true"
     >
-      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+      <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" />
+      <path d="M12 17c0 0-3.5-2.1-3.5-4.3a2 2 0 0 1 3.5-1.3 2 2 0 0 1 3.5 1.3C15.5 14.9 12 17 12 17z" />
     </svg>
   )
 }

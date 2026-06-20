@@ -58,7 +58,10 @@ export function useServiceProviderProfile() {
   const toggleCategory = (cat: string) => {
     const current = tradeCategories ?? []
     if (current.includes(cat)) {
-      setValue('tradeCategories', current.filter((c) => c !== cat))
+      setValue(
+        'tradeCategories',
+        current.filter((c) => c !== cat),
+      )
     } else {
       setValue('tradeCategories', [...current, cat])
     }

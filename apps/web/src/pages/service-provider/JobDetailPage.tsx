@@ -1,5 +1,15 @@
 import { Link } from 'react-router'
-import { Button, Textarea, Label, Card, CardContent, CardHeader, CardTitle, cn, Muted } from '@home-repair/ui'
+import {
+  Button,
+  Textarea,
+  Label,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  cn,
+  Muted,
+} from '@home-repair/ui'
 import { formatDate } from '@/lib/format'
 import { STATUS_LABEL, STATUS_CLASS, BID_STATUS_CLASS } from '@/lib/job-status'
 import { useServiceProviderJobDetail } from './hooks/useServiceProviderJobDetail'
@@ -28,7 +38,10 @@ export default function ServiceProviderJobDetailPage() {
     return (
       <div className="space-y-4">
         <Muted>Job post not found.</Muted>
-        <Link to="/service-provider" className="text-sm text-muted-foreground hover:text-foreground">
+        <Link
+          to="/service-provider"
+          className="text-sm text-muted-foreground hover:text-foreground"
+        >
           ← Back to jobs
         </Link>
       </div>
@@ -139,9 +152,7 @@ export default function ServiceProviderJobDetailPage() {
                 )}
               </div>
 
-              {errors.root && (
-                <p className="text-destructive text-sm">{errors.root.message}</p>
-              )}
+              {errors.root && <p className="text-destructive text-sm">{errors.root.message}</p>}
 
               <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? 'Placing bid…' : 'Place bid'}

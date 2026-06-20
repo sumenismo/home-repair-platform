@@ -54,7 +54,12 @@ describe('MessagingService', () => {
       const post = await createJobPost(homeowner.id)
 
       await createMessage(post.id, homeowner.id, serviceProvider.id, 'For service provider')
-      await createMessage(post.id, homeowner.id, otherServiceProvider.id, 'For other service provider')
+      await createMessage(
+        post.id,
+        homeowner.id,
+        otherServiceProvider.id,
+        'For other service provider',
+      )
 
       const messages = await MessagingService.getMessages(sql, post.id, serviceProvider.id)
       expect(messages.length).toBe(1)

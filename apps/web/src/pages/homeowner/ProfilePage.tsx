@@ -1,5 +1,18 @@
 import { getAllRegions } from '@aivangogh/ph-address'
-import { Button, Input, Label, Select, Card, CardContent, CardDescription, CardHeader, CardTitle, PageHeading, PageLead, Muted } from '@home-repair/ui'
+import {
+  Button,
+  Input,
+  Label,
+  Select,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  PageHeading,
+  PageLead,
+  Muted,
+} from '@home-repair/ui'
 import { useHomeownerProfile } from './hooks/useHomeownerProfile'
 
 const ALL_REGIONS = getAllRegions()
@@ -38,9 +51,7 @@ export default function HomeownerProfilePage() {
       <Card>
         <CardHeader>
           <CardTitle>Account details</CardTitle>
-          <CardDescription>
-            Your default address will pre-fill the job post form.
-          </CardDescription>
+          <CardDescription>Your default address will pre-fill the job post form.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -55,7 +66,12 @@ export default function HomeownerProfilePage() {
 
               <div className="space-y-1.5">
                 <Label htmlFor="phone">Phone (optional)</Label>
-                <Input id="phone" type="tel" placeholder="+63 9XX XXX XXXX" {...register('phone')} />
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="+63 9XX XXX XXXX"
+                  {...register('phone')}
+                />
               </div>
             </div>
 
