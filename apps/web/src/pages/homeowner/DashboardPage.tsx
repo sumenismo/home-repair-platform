@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import { useAuth } from '@/contexts/AuthContext'
 import { useMyJobPostsQuery } from '@/generated/graphql'
-import { buttonVariants } from '@home-repair/ui'
+import { buttonVariants, PageHeading, PageLead, Muted } from '@home-repair/ui'
 import { cn } from '@/lib/utils'
 import { formatDate } from '@/lib/format'
 import { STATUS_LABEL, STATUS_CLASS } from '@/lib/job-status'
@@ -16,8 +16,8 @@ export default function HomeownerDashboard() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold">Welcome, {appUser?.fullName ?? 'Homeowner'}</h1>
-          <p className="text-muted-foreground mt-1 text-sm">Manage your job listings below.</p>
+          <PageHeading>Welcome, {appUser?.fullName ?? 'Homeowner'}</PageHeading>
+          <PageLead>Manage your job listings below.</PageLead>
         </div>
         <Link to="/homeowner/jobs/new" className={buttonVariants()}>
           Post a job
@@ -25,12 +25,12 @@ export default function HomeownerDashboard() {
       </div>
 
       {fetching ? (
-        <p className="text-muted-foreground text-sm">Loading…</p>
+        <Muted>Loading…</Muted>
       ) : myJobs.length === 0 ? (
         <div className="rounded-xl border border-dashed p-10 text-center">
-          <p className="text-muted-foreground text-sm">
+          <Muted>
             You haven't posted any jobs yet. Post your first job to start receiving bids.
-          </p>
+          </Muted>
           <Link to="/homeowner/jobs/new" className={cn(buttonVariants(), 'mt-4')}>
             Post a job
           </Link>
@@ -46,7 +46,7 @@ export default function HomeownerDashboard() {
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0 space-y-1">
                     <p className="truncate font-medium">{job.title}</p>
-                    <p className="text-muted-foreground text-sm">{job.category}</p>
+                    <Muted>{job.category}</Muted>
                   </div>
                   <span
                     className={cn(

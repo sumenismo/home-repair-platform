@@ -1,5 +1,5 @@
 import { Link } from 'react-router'
-import { Button, buttonVariants, Card, CardContent, CardHeader, CardTitle, cn } from '@home-repair/ui'
+import { Button, buttonVariants, Card, CardContent, CardHeader, CardTitle, cn, SectionHeading, Muted } from '@home-repair/ui'
 import { formatDate } from '@/lib/format'
 import { STATUS_LABEL, STATUS_CLASS, BID_STATUS_CLASS } from '@/lib/job-status'
 import ServiceProviderProfileModal from './ServiceProviderProfileModal'
@@ -21,13 +21,13 @@ export default function JobDetailPage() {
   } = useHomeownerJobDetail()
 
   if (postFetching) {
-    return <p className="text-muted-foreground text-sm">Loading…</p>
+    return <Muted>Loading…</Muted>
   }
 
   if (!post) {
     return (
       <div className="space-y-4">
-        <p className="text-muted-foreground text-sm">Job post not found.</p>
+        <Muted>Job post not found.</Muted>
         <Link to="/homeowner" className={buttonVariants({ variant: 'outline' })}>
           Back to dashboard
         </Link>
@@ -94,15 +94,15 @@ export default function JobDetailPage() {
 
       {/* Bids */}
       <div>
-        <h2 className="mb-3 text-base font-semibold">
+        <SectionHeading className="mb-3">
           Bids {bids.length > 0 && `(${bids.length})`}
-        </h2>
+        </SectionHeading>
 
         {bidsFetching ? (
-          <p className="text-muted-foreground text-sm">Loading bids…</p>
+          <Muted>Loading bids…</Muted>
         ) : bids.length === 0 ? (
           <div className="rounded-xl border border-dashed p-8 text-center">
-            <p className="text-muted-foreground text-sm">No bids yet. Check back soon.</p>
+            <Muted>No bids yet. Check back soon.</Muted>
           </div>
         ) : (
           <ul className="space-y-3">
@@ -127,7 +127,7 @@ export default function JobDetailPage() {
                         {sp.fullName ?? sp.email}
                       </button>
                       {profile?.businessName && (
-                        <p className="text-muted-foreground text-sm">{profile.businessName}</p>
+                        <Muted>{profile.businessName}</Muted>
                       )}
                       {profile?.tradeCategories && profile.tradeCategories.length > 0 && (
                         <p className="text-muted-foreground text-xs">

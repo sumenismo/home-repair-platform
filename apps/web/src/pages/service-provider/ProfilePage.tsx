@@ -1,5 +1,5 @@
 import { Controller } from 'react-hook-form'
-import { Button, Input, Label, Textarea, Checkbox, Card, CardContent, CardDescription, CardHeader, CardTitle, CityMultiSelect, cn } from '@home-repair/ui'
+import { Button, Input, Label, Textarea, Checkbox, Card, CardContent, CardDescription, CardHeader, CardTitle, CityMultiSelect, cn, PageHeading, PageLead, Muted } from '@home-repair/ui'
 import { CATEGORIES } from '@/lib/job-status'
 import { useServiceProviderProfile } from './hooks/useServiceProviderProfile'
 
@@ -19,15 +19,13 @@ export default function ServiceProviderProfilePage() {
     toggleCategory,
   } = useServiceProviderProfile()
 
-  if (fetching) return <p className="text-muted-foreground text-sm">Loading…</p>
+  if (fetching) return <Muted>Loading…</Muted>
 
   return (
     <div className="max-w-2xl space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">My profile</h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          Your business details and service categories.
-        </p>
+        <PageHeading>My profile</PageHeading>
+        <PageLead>Your business details and service categories.</PageLead>
       </div>
 
       <Card>

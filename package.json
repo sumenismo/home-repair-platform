@@ -12,7 +12,8 @@
     "check": "pnpm codegen && pnpm turbo typecheck && pnpm turbo lint && pnpm db:migrate:test && pnpm turbo test",
     "test": "turbo test",
     "db:migrate": "pnpm --filter @home-repair/db db:migrate",
-    "db:migrate:test": "pnpm --filter @home-repair/db db:migrate:test"
+    "db:migrate:test": "pnpm --filter @home-repair/db db:migrate:test",
+    "ui:storybook": "pnpm --filter @home-repair/ui storybook"
   },
   "devDependencies": {
     "prettier": "^3.0.0",

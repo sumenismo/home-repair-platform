@@ -1,4 +1,4 @@
-import { Input, Select, Label, Button, CityMultiSelect, cn } from '@home-repair/ui'
+import { Input, Select, Label, Button, CityMultiSelect, cn, PageHeading, PageLead, Muted } from '@home-repair/ui'
 import { CATEGORIES } from '@/lib/job-status'
 import { useFindProviders } from './hooks/useFindProviders'
 
@@ -19,10 +19,8 @@ export default function FindProvidersPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Find providers</h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          Search for service providers by name, city, or trade category.
-        </p>
+        <PageHeading>Find providers</PageHeading>
+        <PageLead>Search for service providers by name, city, or trade category.</PageLead>
       </div>
 
       {/* Filters */}
@@ -65,12 +63,10 @@ export default function FindProvidersPage() {
 
       {/* Results */}
       {fetching ? (
-        <p className="text-muted-foreground text-sm">Loading…</p>
+        <Muted>Loading…</Muted>
       ) : providers.length === 0 ? (
         <div className="rounded-xl border border-dashed p-10 text-center">
-          <p className="text-muted-foreground text-sm">
-            No providers found. Try adjusting your filters.
-          </p>
+          <Muted>No providers found. Try adjusting your filters.</Muted>
         </div>
       ) : (
         <>
@@ -92,7 +88,7 @@ export default function FindProvidersPage() {
                   <div className="min-w-0 space-y-0.5">
                     <p className="font-medium">{displayName}</p>
                     {profile?.businessName && (
-                      <p className="text-muted-foreground text-sm">{profile.businessName}</p>
+                      <Muted>{profile.businessName}</Muted>
                     )}
                   </div>
                   {profile?.verified && (

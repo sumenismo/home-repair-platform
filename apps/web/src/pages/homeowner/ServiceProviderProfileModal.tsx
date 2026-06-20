@@ -1,5 +1,5 @@
 import type { BidsQuery } from '@/generated/graphql'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, cn } from '@home-repair/ui'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, cn, Overline } from '@home-repair/ui'
 
 type Bid = BidsQuery['bids'][number]
 
@@ -40,9 +40,7 @@ export default function ServiceProviderProfileModal({ bid, open, onClose }: Prop
               {/* Account type */}
               {profile && (
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-1">
-                    Account type
-                  </p>
+                  <Overline className="mb-1">Account type</Overline>
                   <p className="text-sm">{profile.isCompany ? 'Company' : 'Individual'}</p>
                 </div>
               )}
@@ -50,9 +48,7 @@ export default function ServiceProviderProfileModal({ bid, open, onClose }: Prop
               {/* Trade categories */}
               {profile && profile.tradeCategories.length > 0 && (
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2">
-                    Trade categories
-                  </p>
+                  <Overline className="mb-2">Trade categories</Overline>
                   <div className="flex flex-wrap gap-1.5">
                     {profile.tradeCategories.map((cat) => (
                       <span
@@ -72,18 +68,14 @@ export default function ServiceProviderProfileModal({ bid, open, onClose }: Prop
               {/* Bio */}
               {profile?.bio && (
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-1">
-                    About
-                  </p>
+                  <Overline className="mb-1">About</Overline>
                   <p className="text-sm leading-relaxed">{profile.bio}</p>
                 </div>
               )}
 
               {/* Contact */}
               <div className="border-t pt-4">
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2">
-                  Contact
-                </p>
+                <Overline className="mb-2">Contact</Overline>
                 <div className="space-y-1 text-sm">
                   {sp.phone && <p>{sp.phone}</p>}
                   <p>{sp.email}</p>

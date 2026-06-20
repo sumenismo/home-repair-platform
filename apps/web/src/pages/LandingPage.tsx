@@ -1,6 +1,6 @@
 import { Link, Navigate } from 'react-router'
 import { useAuth } from '@/contexts/AuthContext'
-import { buttonVariants } from '@home-repair/ui'
+import { buttonVariants, PageHeading } from '@home-repair/ui'
 
 export default function LandingPage() {
   const { session, appUser, loading } = useAuth()
@@ -16,7 +16,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-muted/40 p-4 gap-8">
       <div className="text-center space-y-2">
-        <h1 className="text-4xl font-bold tracking-tight">Home Repair Platform</h1>
+        <PageHeading className="text-4xl font-bold tracking-tight">Home Repair Platform</PageHeading>
         <p className="text-muted-foreground text-lg">
           Connect homeowners with trusted service providers
         </p>

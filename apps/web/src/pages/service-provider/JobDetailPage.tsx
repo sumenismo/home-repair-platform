@@ -1,5 +1,5 @@
 import { Link } from 'react-router'
-import { Button, Textarea, Label, Card, CardContent, CardHeader, CardTitle, cn } from '@home-repair/ui'
+import { Button, Textarea, Label, Card, CardContent, CardHeader, CardTitle, cn, Muted } from '@home-repair/ui'
 import { formatDate } from '@/lib/format'
 import { STATUS_LABEL, STATUS_CLASS, BID_STATUS_CLASS } from '@/lib/job-status'
 import { useServiceProviderJobDetail } from './hooks/useServiceProviderJobDetail'
@@ -21,13 +21,13 @@ export default function ServiceProviderJobDetailPage() {
   } = useServiceProviderJobDetail()
 
   if (postFetching || myBidsFetching) {
-    return <p className="text-muted-foreground text-sm">Loading…</p>
+    return <Muted>Loading…</Muted>
   }
 
   if (!post) {
     return (
       <div className="space-y-4">
-        <p className="text-muted-foreground text-sm">Job post not found.</p>
+        <Muted>Job post not found.</Muted>
         <Link to="/service-provider" className="text-sm text-muted-foreground hover:text-foreground">
           ← Back to jobs
         </Link>
@@ -113,13 +113,11 @@ export default function ServiceProviderJobDetailPage() {
         </Card>
       ) : !isOpen ? (
         <div className="rounded-xl border border-dashed p-6 text-center">
-          <p className="text-muted-foreground text-sm">This job is no longer accepting bids.</p>
+          <Muted>This job is no longer accepting bids.</Muted>
         </div>
       ) : isFull ? (
         <div className="rounded-xl border border-dashed p-6 text-center">
-          <p className="text-muted-foreground text-sm">
-            All bid slots are full. Check back if a slot opens up.
-          </p>
+          <Muted>All bid slots are full. Check back if a slot opens up.</Muted>
         </div>
       ) : (
         <Card>

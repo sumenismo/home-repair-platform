@@ -1,5 +1,5 @@
 import { getAllRegions } from '@aivangogh/ph-address'
-import { Button, Input, Label, Select, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@home-repair/ui'
+import { Button, Input, Label, Select, Card, CardContent, CardDescription, CardHeader, CardTitle, PageHeading, PageLead, Muted } from '@home-repair/ui'
 import { useHomeownerProfile } from './hooks/useHomeownerProfile'
 
 const ALL_REGIONS = getAllRegions()
@@ -26,15 +26,13 @@ export default function HomeownerProfilePage() {
     handleBarangayChange,
   } = useHomeownerProfile()
 
-  if (fetching) return <p className="text-muted-foreground text-sm">Loading…</p>
+  if (fetching) return <Muted>Loading…</Muted>
 
   return (
     <div className="max-w-2xl space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">My profile</h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          Your contact details and default address.
-        </p>
+        <PageHeading>My profile</PageHeading>
+        <PageLead>Your contact details and default address.</PageLead>
       </div>
 
       <Card>
