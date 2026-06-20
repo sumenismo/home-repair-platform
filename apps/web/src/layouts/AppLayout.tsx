@@ -1,6 +1,6 @@
 import { Outlet, Navigate, NavLink } from 'react-router'
 import { useAuth } from '@/contexts/AuthContext'
-import { Button } from '@/components/ui/button'
+import { Button } from '@home-repair/ui'
 
 export default function AppLayout() {
   const { session, appUser, loading, signOut } = useAuth()

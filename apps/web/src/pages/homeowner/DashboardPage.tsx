@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import { useAuth } from '@/contexts/AuthContext'
 import { useMyJobPostsQuery } from '@/generated/graphql'
-import { buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@home-repair/ui'
 import { cn } from '@/lib/utils'
 import { formatDate } from '@/lib/format'
 import { STATUS_LABEL, STATUS_CLASS } from '@/lib/job-status'

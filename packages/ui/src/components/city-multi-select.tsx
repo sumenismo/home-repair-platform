@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { getAllRegions, getProvincesByRegion, getMunicipalitiesByProvince } from '@aivangogh/ph-address'
-import { X } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '../lib/utils'
+import { CloseIcon } from '../icons'
 
 // ─── static data ─────────────────────────────────────────────────────────────
 
@@ -83,15 +83,15 @@ export function CityMultiSelect({
     <div className="relative">
       <div
         className={cn(
-          'flex min-h-9 w-full flex-wrap items-center gap-1.5 rounded-md border border-input bg-transparent px-3 py-1.5 shadow-sm transition-colors cursor-text',
-          'focus-within:ring-1 focus-within:ring-ring',
+          'flex min-h-10 w-full flex-wrap items-center gap-1.5 rounded-lg border border-input bg-transparent px-3 py-1.5 shadow-sm transition-colors cursor-text',
+          'focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1',
         )}
         onClick={() => inputRef.current?.focus()}
       >
         {value.map((name) => (
           <span
             key={name}
-            className="bg-primary text-primary-foreground inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium"
+            className="bg-primary text-primary-foreground inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold"
           >
             {CITY_LABEL.get(name) ?? name}
             <button
@@ -100,7 +100,7 @@ export function CityMultiSelect({
               className="hover:text-primary-foreground/70 rounded-full"
               aria-label={`Remove ${name}`}
             >
-              <X className="h-3 w-3" />
+              <CloseIcon className="h-3 w-3" />
             </button>
           </span>
         ))}
@@ -119,7 +119,7 @@ export function CityMultiSelect({
 
       {open && search.length > 0 && (
         <ul className={cn(
-          'border-input bg-background absolute z-10 mt-1 max-h-52 w-full overflow-y-auto rounded-md border shadow-md',
+          'border-input bg-card absolute z-10 mt-1 max-h-52 w-full overflow-y-auto rounded-lg border shadow-md',
         )}>
           {filtered.length > 0 ? (
             filtered.map((city) => (
@@ -128,7 +128,7 @@ export function CityMultiSelect({
                   type="button"
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => add(city)}
-                  className="hover:bg-accent hover:text-accent-foreground w-full px-3 py-2 text-left text-sm"
+                  className="hover:bg-accent/20 hover:text-accent-foreground w-full px-3 py-2 text-left text-sm"
                 >
                   {city.label}
                 </button>

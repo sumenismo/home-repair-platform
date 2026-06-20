@@ -1,12 +1,5 @@
 import { Controller } from 'react-hook-form'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { CityMultiSelect } from '@/components/ui/city-multi-select'
-import { cn } from '@/lib/utils'
+import { Button, Input, Label, Textarea, Checkbox, Card, CardContent, CardDescription, CardHeader, CardTitle, CityMultiSelect, cn } from '@home-repair/ui'
 import { CATEGORIES } from '@/lib/job-status'
 import { useServiceProviderProfile } from './hooks/useServiceProviderProfile'
 

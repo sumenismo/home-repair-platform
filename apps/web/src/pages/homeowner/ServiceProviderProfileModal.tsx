@@ -1,12 +1,5 @@
 import type { BidsQuery } from '@/generated/graphql'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog'
-import { cn } from '@/lib/utils'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, cn } from '@home-repair/ui'
 
 type Bid = BidsQuery['bids'][number]
 

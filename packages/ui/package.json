@@ -1,0 +1,45 @@
+{
+  "name": "@home-repair/ui",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@aivangogh/ph-address": "^2025.4.4",
+    "@radix-ui/react-dialog": "^1.1.16",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.5.4"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@home-repair/eslint-config": "workspace:*",
+    "@home-repair/tsconfig": "workspace:*",
+    "@storybook/react-vite": "^10.4.6",
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "eslint": "^9.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "storybook": "^10.4.6",
+    "tailwindcss": "^4.0.0",
+    "tw-animate-css": "^1.2.5",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.0"
+  }
+}

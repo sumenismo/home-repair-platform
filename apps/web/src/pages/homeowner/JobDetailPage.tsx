@@ -1,7 +1,5 @@
 import { Link } from 'react-router'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { cn } from '@/lib/utils'
+import { Button, buttonVariants, Card, CardContent, CardHeader, CardTitle, cn } from '@home-repair/ui'
 import { formatDate } from '@/lib/format'
 import { STATUS_LABEL, STATUS_CLASS, BID_STATUS_CLASS } from '@/lib/job-status'
 import ServiceProviderProfileModal from './ServiceProviderProfileModal'

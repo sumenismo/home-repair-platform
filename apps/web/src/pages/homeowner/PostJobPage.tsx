@@ -1,11 +1,6 @@
 import { Link } from 'react-router'
 import { getAllRegions } from '@aivangogh/ph-address'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Select } from '@/components/ui/select'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button, Input, Textarea, Select, Label, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@home-repair/ui'
 import { CATEGORIES } from '@/lib/job-status'
 import { usePostJobPage } from './hooks/usePostJobPage'
 

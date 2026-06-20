@@ -1,6 +1,6 @@
 import { Link, Navigate } from 'react-router'
 import { useAuth } from '@/contexts/AuthContext'
-import { buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@home-repair/ui'
 
 export default function LandingPage() {
   const { session, appUser, loading } = useAuth()

@@ -1,9 +1,5 @@
 import { getAllRegions } from '@aivangogh/ph-address'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Select } from '@/components/ui/select'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button, Input, Label, Select, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@home-repair/ui'
 import { useHomeownerProfile } from './hooks/useHomeownerProfile'
 
 const ALL_REGIONS = getAllRegions()

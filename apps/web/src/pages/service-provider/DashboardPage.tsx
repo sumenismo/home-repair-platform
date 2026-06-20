@@ -1,6 +1,5 @@
 import { Link } from 'react-router'
-import { Select } from '@/components/ui/select'
-import { cn } from '@/lib/utils'
+import { Select, cn } from '@home-repair/ui'
 import { formatDate } from '@/lib/format'
 import { BID_STATUS_CLASS, BID_STATUS_LABEL, CATEGORIES } from '@/lib/job-status'
 import { useServiceProviderDashboard } from './hooks/useServiceProviderDashboard'

@@ -1,0 +1,9 @@
+{
+  "extends": "@home-repair/tsconfig/react.json",
+  "compilerOptions": {
+    "paths": {
+      "@home-repair/ui": ["./src/index.ts"]
+    }
+  },
+  "include": ["src/**/*", ".storybook/**/*"]
+}
